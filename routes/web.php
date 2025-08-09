@@ -17,16 +17,26 @@ use App\Http\Controllers\Admin\PostEkstrakurikulerController;
 use App\Http\Controllers\Admin\TestimoniController;
 use App\Http\Controllers\Admin\PrestasiController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\InterfaceController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
-
-// Rute Halaman Awal (Publik) - Langsung arahkan ke halaman login
-Route::redirect('/', '/login');
-
+// Rute Halaman Awal (Publik)
+Route::get('/', function () {
+    return view('interface.beranda');
+});
+Route::get('/berita', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'berita')->name('berita.index');
+Route::get('/berita/{slug}', [InterfaceController::class, 'beritaDetail'])->name('berita.detail');
+Route::get('/artikel', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'artikel')->name('artikel.index');
+Route::get('/artikel/{slug}', [InterfaceController::class, 'artikelDetail'])->name('artikel.detail');
+Route::get('/galeri', [InterfaceController::class, 'tampilkanGaleri'])->name('galeri.tampil');
+Route::get('/guru', [InterfaceController::class, 'tampilkanGuru'])->name('guru.tampil');
+Route::get('/prestasi', [InterfaceController::class, 'tampilkanPrestasi'])->name('prestasi.tampil');
+Route::get('/sarana-prasarana', [InterfaceController::class, 'tampilkanSarana'])->name('sarana.tampil');
+// Route::get('/teaching-factory', [InterfaceController::class, 'tefaIndex'])->name('teaching');
 
 //=======================================================================
 // RUTE UNTUK AUTENTIKASI (LOGIN & LOGOUT)
@@ -70,5 +80,4 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('ekstrakurikuler', EkstrakurikulerController::class);
     Route::resource('post-ekstrakurikuler', PostEkstrakurikulerController::class);
     Route::resource('prestasi', PrestasiController::class);
-
 });

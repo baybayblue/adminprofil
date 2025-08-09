@@ -113,6 +113,14 @@
                                 <i class="far fa-circle nav-icon"></i> <p>Jurusan</p>
                             </a>
                         </li>
+                        {{-- <li class="nav-item">
+                            <a href="{{ route('admin.tefa.index') }}" class="nav-link {{ request()->routeIs('admin.tefa.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Teaching Factory
+                                </p>
+                            </a>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ route('admin.guru.index') }}" class="nav-link {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i> <p>Guru & Staf</p>

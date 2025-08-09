@@ -9,7 +9,13 @@ class ProfilSekolah extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
+        // Kolom dari migrasi awal
         'nama_sekolah',
         'npsn',
         'alamat',
@@ -23,5 +29,10 @@ class ProfilSekolah extends Model
         'facebook_url',
         'instagram_url',
         'youtube_url',
+        'akreditasi',
+        'tahun_berdiri',
+        'kepala_sekolah',
+        'sambutan_kepala',
+        'foto_kepala_sekolah',
     ];
 }
