@@ -1,90 +1,75 @@
 @extends('layouts.app')
-@section('title', 'Kontak')
+@section('title', 'Kontak Kami') {{-- Judul halaman diubah --}}
 @section('interface')
-    <!--Google Map Area Start -->
-    <div class="google-map-area">
-        <!--  Map Section -->
-        <div id="contacts" class="map-area">
-            <div id="googleMap" style="width:100%;height:451px;"></div>
-        </div>
-        <div class="breadcrumb-bar">
-            <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
-                <li>About Us</li>
-            </ul>
-        </div>
-    </div>
-    <!--End of Google Map Area-->
-    <!--Contact Area Strat-->
-    <div class="contact-area section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="contact-area-container">
-                        <div class="single-title">
-                            <h3>Contact Info</h3>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat. </p>
-                        <div class="contact-address-container">
-                            <div class="contact-address-info">
-                                <div class="contact-icon">
-                                    <i class="fa fa-map-marker"></i>
-                                </div>
-                                <div class="contact-text">
-                                    <h4>Address</h4>
-                                    <span>11st Floor New World Tower Miami</span>
-                                </div>
-                            </div>
-                            <div class="contact-address-info">
-                                <div class="contact-icon">
-                                    <i class="fa fa-phone"></i>
-                                </div>
-                                <div class="contact-text">
-                                    <h4>Phone</h4>
-                                    <span>(801) 2345 - 6789</span>
-                                </div>
-                            </div>
-                            <div class="contact-address-info">
-                                <div class="contact-icon">
-                                    <i class="fa fa-envelope"></i>
-                                </div>
-                                <div class="contact-text">
-                                    <h4>Email</h4>
-                                    <span>admin@power-boosts.com</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="contact-form">
-                        <div class="single-title">
-                            <h3>Send A Message</h3>
-                        </div>
-                        <div class="contact-form-container">
-                            <form id="contact-form" action="https://whizthemes.com/mail-php/jaber/contact.php"
-                                method="post">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" name="name" placeholder="Your Name *">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="email" name="email" placeholder="Your Email *">
-                                    </div>
-                                </div>
-                                <input type="text" name="subject" placeholder="Subject *">
-                                <textarea name="message" class="yourmessage" placeholder="Your message"></textarea>
-                                <button type="submit" class="button-default button-yellow submit"><i
-                                        class="fa fa-send"></i>Submit</button>
-                            </form>
-                            <p class="form-messege"></p>
-                        </div>
+
+{{-- Bagian Banner Atas --}}
+<div class="breadcrumb-banner-area gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-text">
+                    <h1 class="text-center">Kontak Kami</h1> {{-- Teks diubah --}}
+                    <div class="breadcrumb-bar">
+                        <ul class="breadcrumb">
+                            <li><a href="{{ url('/') }}">Beranda</a></li>
+                            <li>Kontak</li> {{-- Breadcrumb diubah --}}
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--End of Contact Area-->
+</div>
+
+{{-- Bagian Konten Utama --}}
+<div class="contact-area section-padding">
+    <div class="container">
+        {{-- Pengecekan apakah data profil ada --}}
+        @if($profil)
+        <div class="row">
+            {{-- Kolom untuk Peta Google Maps --}}
+            <div class="col-md-12 col-lg-7">
+                <div class="contact-map">
+                    {{-- Menampilkan embed map dari database. Gunakan {!! !!} agar tag HTML dirender --}}
+                    {!! $profil->maps !!}
+                </div>
+            </div>
+
+            {{-- Kolom untuk Informasi Kontak --}}
+            <div class="col-md-12 col-lg-5">
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    <p>Hubungi kami melalui detail di bawah ini untuk informasi lebih lanjut mengenai sekolah kami.</p>
+                    <ul>
+                        <li><i class="fa fa-map-marker"></i> <strong>Alamat:</strong><br>{{ $profil->alamat }}</li>
+                        <li><i class="fa fa-phone"></i> <strong>Telepon:</strong><br>{{ $profil->no_telp }}</li>
+                        <li><i class="fa fa-envelope"></i> <strong>Email:</strong><br><a href="mailto:{{ $profil->email }}">{{ $profil->email }}</a></li>
+                    </ul>
+                    
+                    {{-- Tautan Media Sosial --}}
+                    <div class="social-media-links mt-4">
+                        <h4>Ikuti Kami:</h4>
+                        @if($profil->facebook_url)
+                            <a href="{{ $profil->facebook_url }}" target="_blank" class="mr-2"><i class="fa fa-facebook-square fa-2x"></i></a>
+                        @endif
+                        @if($profil->instagram_url)
+                            <a href="{{ $profil->instagram_url }}" target="_blank" class="mr-2"><i class="fa fa-instagram fa-2x"></i></a>
+                        @endif
+                        @if($profil->youtube_url)
+                            <a href="{{ $profil->youtube_url }}" target="_blank"><i class="fa fa-youtube-play fa-2x"></i></a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @else
+        {{-- Tampilan jika tidak ada data profil sekolah --}}
+        <div class="col-md-12 text-center">
+            <div class="alert alert-info">
+                Informasi kontak sekolah belum tersedia.
+            </div>
+        </div>
+        @endif
+    </div>
+</div>
 @endsection

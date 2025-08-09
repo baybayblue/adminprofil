@@ -36,6 +36,14 @@ Route::get('/galeri', [InterfaceController::class, 'tampilkanGaleri'])->name('ga
 Route::get('/guru', [InterfaceController::class, 'tampilkanGuru'])->name('guru.tampil');
 Route::get('/prestasi', [InterfaceController::class, 'tampilkanPrestasi'])->name('prestasi.tampil');
 Route::get('/sarana-prasarana', [InterfaceController::class, 'tampilkanSarana'])->name('sarana.tampil');
+Route::get('/pengumuman', [InterfaceController::class, 'pengumuman'])->name('pengumuman');
+Route::get('/pengumuman/{pengumuman}', [InterfaceController::class, 'show'])->name('pengumuman.show');
+Route::get('/organigram', [InterfaceController::class, 'organigram'])->name('organigram');
+Route::get('/kontak', [InterfaceController::class, 'kontak'])->name('kontak');
+Route::get('/profil/visi-misi', [InterfaceController::class, 'showVisiMisi'])->name('profil.visi-misi');
+Route::get('/tentang-kami', [InterfaceController::class, 'tentangSekolah'])->name('profil.tentang');
+
+
 // Route::get('/teaching-factory', [InterfaceController::class, 'tefaIndex'])->name('teaching');
 
 //=======================================================================
