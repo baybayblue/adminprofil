@@ -34,5 +34,8 @@ class ProfilSekolah extends Model
         'kepala_sekolah',
         'sambutan_kepala',
         'foto_kepala_sekolah',
+        'jumlah_guru',
+        'jumlah_siswa',
+        'jumlah_ruang_kelas',
     ];
 }

@@ -12,9 +12,29 @@ use App\Models\Prestasi;
 use App\Models\Sarana; 
 use App\Models\Pengumuman; 
 use App\Models\Organigram; 
+use App\Models\Jurusan; 
 
 class InterfaceController extends Controller
 {
+
+    public function beranda()
+    {
+        $profil = ProfilSekolah::first();
+        
+        // $sliders = Slider::latest()->get();
+        // $berita_terbaru = Artikel::latest()->take(4)->get();
+        $galeri_terbaru = Galeri::latest()->take(8)->get();
+        $jurusan_list = Jurusan::all();
+        $guru_list = Guru::all();
+
+       
+        return view('interface.beranda', [
+            'profil' => $profil,
+            'berita_terbaru' => [], // ganti dengan $berita_terbaru nanti
+            'galeri_terbaru' => [], // ganti dengan $galeri_terbaru nanti
+            'jurusan_list' => [],   // ganti dengan $jurusan_list nanti
+        ]);
+    }
    
     public function tefaIndex()
     {

@@ -25,9 +25,7 @@ use App\Http\Controllers\InterfaceController;
 |--------------------------------------------------------------------------
 */
 // Rute Halaman Awal (Publik)
-Route::get('/', function () {
-    return view('interface.beranda');
-});
+Route::get('/', [InterfaceController::class, 'beranda'])->name('beranda');
 Route::get('/berita', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'berita')->name('berita.index');
 Route::get('/berita/{slug}', [InterfaceController::class, 'beritaDetail'])->name('berita.detail');
 Route::get('/artikel', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'artikel')->name('artikel.index');

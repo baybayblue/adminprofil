@@ -159,7 +159,7 @@
                                 <div class="mainmenu">
                                     <nav>
                                         <ul id="nav">
-                                            <li><a href="/">Beranda</a></li>
+                                            <li><a href="{{ route('beranda') }}">Beranda</a></li>
                                             <li class="current"><a href="index.html">Profil <i
                                                         class="fa fa-angle-down"></i></a>
                                                 <ul class="sub-menu">
