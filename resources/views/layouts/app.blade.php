@@ -151,7 +151,17 @@
                     <div class="row">
                         <div class="col-lg-1 col-md-12">
                             <div class="logo">
-                                <a href="index.html"><img src="img/logo/logo.png" alt="TECHEDU"></a>
+                                {{-- Pastikan variabel $profil ada sebelum digunakan --}}
+                                @if (isset($profil) && $profil->logo)
+                                    <a href="{{ route('beranda') }}">
+                                        <img src="{{ asset('storage/' . $profil->logo) }}" alt="Logo {{ $profil->nama_sekolah }}">
+                                    </a>
+                                @else
+                                    {{-- Fallback jika logo belum di-set di database --}}
+                                    <a href="{{ route('beranda') }}">
+                                        <img src="{{ asset('assets/img/logo/logo-default.png') }}" alt="Logo Sekolah">
+                                    </a>
+                                @endif
                             </div>
                         </div>
                         <div class="col-lg-11 d-none d-lg-block">
