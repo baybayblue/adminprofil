@@ -7,11 +7,11 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="breadcrumb-text">
-                            <h1 class="text-center">Classes</h1>
+                            <h1 class="text-center">Agenda Kegiatan Sekolah</h1>
                             <div class="breadcrumb-bar">
                                 <ul class="breadcrumb">
-                                    <li><a href="index.html">Home</a></li>
-                                    <li>Classes</li>
+                                    <li><a href="{{ url('/') }}">Beranda</a></li>
+                                    <li>Agenda</li>
                                 </ul>
                             </div>
                         </div>
@@ -20,22 +20,16 @@
             </div>
         </div>
         <!--End of Breadcrumb Banner Area-->
-        <!--Class List Area Start-->
+        <!--Agenda List Area Start-->
         <div class="class-list-area section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="class-menu">
-                            <div class="class-icon">
-                                <a href="class-grid.html" class="active"><i class="fa fa-th-large"></i></a>
-                            </div>
-                            <div class="class-icon">
-                                <a href="class-list.html"><i class="fa fa-bars"></i></a>
-                            </div>  
                             <div class="search-container">
-                                <form action="#" method="post">
-                                    <input type="text" placeholder="Search our classes" />
-                                    <button class="submit"><i class="fa fa-search"></i></button>
+                                <form action="{{ route('agenda.search') }}" method="get">
+                                    <input type="text" name="search" placeholder="Cari agenda..." value="{{ request('search') }}" />
+                                    <button type="submit" class="submit"><i class="fa fa-search"></i></button>
                                 </form>                               
                             </div>  
                         </div>
@@ -43,206 +37,126 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-9 col-lg-8">
-                        <div class="class-list-item">
-                            <div class="row">
-                                <div class="col-xl-5 col-lg-6 col-md-6">
-                                    <a href="#"><img src="img/gallery/9.jpg" alt=""></a>
-                                </div>
-                                <div class="col-xl-7 col-lg-6 col-md-6">
-                                    <div class="class-list-text">
-                                        <h3><a href="#">Letter Match Class</a></h3>
-                                        <div class="class-information">
-                                            <span>Age: 3 - 4 years</span>
-                                            <span>Class Size: 38</span>
-                                            <span>Start Date: March 25, 2016</span>
-                                        </div>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen. </p>
-                                        <a href="#" class="button-default">Read More <i class="fa fa-angle-right"></i></a>
-                                    </div>
+                        @forelse($agendas as $agenda)
+                        <div class="agenda-item mb-4 p-4 border rounded">
+                            <div class="agenda-date bg-primary text-white p-2 rounded-top" style="max-width: 120px;">
+                                <div class="text-center">
+                                    <div class="fs-3 fw-bold">{{ $agenda->tanggal_mulai->format('d') }}</div>
+                                    <div class="fs-6">{{ $agenda->tanggal_mulai->format('M Y') }}</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="class-list-item">
-                            <div class="row">
-                                <div class="col-xl-5 col-lg-6 col-md-6">
-                                    <a href="#"><img src="img/gallery/8.jpg" alt=""></a>
+                            <div class="agenda-content p-3">
+                                <h3 class="mb-2">{{ $agenda->judul_agenda }}</h3>
+                                <div class="agenda-meta mb-3">
+                                    <span class="me-3"><i class="fa fa-clock-o me-1"></i> {{ $agenda->jam_mulai }} - {{ $agenda->jam_selesai }}</span>
+                                    <span><i class="fa fa-map-marker me-1"></i> {{ $agenda->lokasi }}</span>
                                 </div>
-                                <div class="col-xl-7 col-lg-6 col-md-6">
-                                    <div class="class-list-text">
-                                        <h3><a href="#">Alphabet Matching Class</a></h3>
-                                        <div class="class-information">
-                                            <span>Age: 5 - 6 years</span>
-                                            <span>Class Size: 25</span>
-                                            <span>Start Date: April 10, 2016</span>
-                                        </div>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
-                                        <a href="#" class="button-default">Read More <i class="fa fa-angle-right"></i></a>
-                                    </div>
-                                </div>
+                                <p class="mb-3">{{ Str::limit($agenda->isi_agenda, 250) }}</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Detail Kegiatan <i class="fa fa-angle-right ms-1"></i></a>
                             </div>
                         </div>
-                        <div class="class-list-item">
-                            <div class="row">
-                                <div class="col-xl-5 col-lg-6 col-md-6">
-                                    <a href="#"><img src="img/gallery/11.jpg" alt=""></a>
-                                </div>
-                                <div class="col-xl-7 col-lg-6 col-md-6">
-                                    <div class="class-list-text">
-                                        <h3><a href="#">Cool Math Class</a></h3>
-                                        <div class="class-information">
-                                            <span>Age: 7 - 8 years</span>
-                                            <span>Class Size: 30</span>
-                                            <span>Start Date: February 18, 2016</span>
-                                        </div>
-                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of</p>
-                                        <a href="#" class="button-default">Read More <i class="fa fa-angle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                        @empty
+                        <div class="alert alert-info">
+                            Tidak ada agenda kegiatan saat ini.
                         </div>
-                        <div class="class-list-item">
-                            <div class="row">
-                                <div class="col-xl-5 col-lg-6 col-md-6">
-                                    <a href="#"><img src="img/gallery/13.jpg" alt=""></a>
-                                </div>
-                                <div class="col-xl-7 col-lg-6 col-md-6">
-                                    <div class="class-list-text">
-                                        <h3><a href="#">Color Matching Class</a></h3>
-                                        <div class="class-information">
-                                            <span>Age: 2 - 3 years</span>
-                                            <span>Class Size: 40</span>
-                                            <span>Start Date: May 18, 2016</span>
-                                        </div>
-                                        <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence.</p>
-                                        <a href="#" class="button-default">Read More <i class="fa fa-angle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="class-list-item">
-                            <div class="row">
-                                <div class="col-xl-5 col-lg-6 col-md-6">
-                                    <a href="#"><img src="img/gallery/10.jpg" alt=""></a>
-                                </div>
-                                <div class="col-xl-7 col-lg-6 col-md-6">
-                                    <div class="class-list-text">
-                                        <h3><a href="#">Science Class</a></h3>
-                                        <div class="class-information">
-                                            <span>Age: 3 - 4 years</span>
-                                            <span>Class Size: 30</span>
-                                            <span>Start Date: April 18, 2016</span>
-                                        </div>
-                                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa.</p>
-                                        <a href="#" class="button-default">Read More <i class="fa fa-angle-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
                         
-                        <div class="pagination-content">
+                        @if($agendas->hasPages())
+                        <div class="pagination-content mt-4">
                             <div class="pagination-button">
-                                <ul class="pagination">
-                                    <li class="current"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-                                </ul>
-                                <span>Page:</span>
+                                {{ $agendas->links() }}
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div class="col-xl-3 col-lg-4">
                         <div class="single-widget-item res-mrg-top-xs">
                             <div class="single-title">
-                                <h3>All Classes</h3>
+                                <h3>Agenda Mendatang</h3>
                             </div>
                             <div class="single-widget-container">
-                                <ul class="sidebar-categories class">
-                                    <li><a href="#">Art Class</a></li>
-                                    <li><a href="#">Sports Class</a></li>
-                                    <li><a href="#">Math Class</a></li>
-                                    <li><a href="#">Science Class</a></li>
-                                    <li><a href="#">History Class</a></li>
-                                    <li><a href="#">Paint Class</a></li>
-                                </ul>
+                                @foreach($upcomingAgendas as $upcoming)
+                                <div class="upcoming-agenda-item mb-3 p-3 border rounded">
+                                    <div class="d-flex align-items-center">
+                                        <div class="date-badge bg-light text-center p-2 me-3 rounded" style="min-width: 50px;">
+                                            <div class="fw-bold text-primary">{{ $upcoming->tanggal_mulai->format('d') }}</div>
+                                            <div class="small">{{ $upcoming->tanggal_mulai->format('M') }}</div>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">{{ Str::limit($upcoming->judul_agenda, 30) }}</h6>
+                                            <small class="text-muted">{{ $upcoming->jam_mulai }} - {{ $upcoming->lokasi }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
+                        
                         <div class="single-widget-item">
                             <div class="single-title">
-                                <h3>Recent Classes</h3>
+                                <h3>Kalender Agenda</h3>
                             </div>
                             <div class="single-widget-container">
-                                <div class="recent-post-item">
-                                    <div class="recent-post-image">
-                                        <a href="#"><img src="img/gallery/15.jpg" alt=""></a>
-                                    </div>
-                                    <div class="recent-post-text">
-                                        <h4><a href="#">Alphabet Match Class</a></h4>
-                                        <span><i class="fa fa-calendar"></i>March 25, 2016</span>
-                                    </div>
-                                </div>
-                                <div class="recent-post-item">
-                                    <div class="recent-post-image">
-                                        <a href="#"><img src="img/gallery/16.jpg" alt=""></a>
-                                    </div>
-                                    <div class="recent-post-text">
-                                        <h4><a href="#">Cool Math Class</a></h4>
-                                        <span><i class="fa fa-calendar"></i>April 23, 2016</span>
-                                    </div>
-                                </div>
-                                <div class="recent-post-item">
-                                    <div class="recent-post-image">
-                                        <a href="#"><img src="img/gallery/17.jpg" alt=""></a>
-                                    </div>
-                                    <div class="recent-post-text">
-                                        <h4><a href="#">Color Match Class</a></h4>
-                                        <span><i class="fa fa-calendar"></i>July 12, 2016</span>
-                                    </div>
-                                </div>
-                                <div class="recent-post-item">
-                                    <div class="recent-post-image">
-                                        <a href="#"><img src="img/gallery/18.jpg" alt=""></a>
-                                    </div>
-                                    <div class="recent-post-text">
-                                        <h4><a href="#">Letter Match Class</a></h4>
-                                        <span><i class="fa fa-calendar"></i>June 29, 2016</span>
-                                    </div>
+                                <div class="calendar-widget bg-light p-3 rounded text-center">
+                                    <!-- Ini bisa diisi dengan kalender sederhana atau library seperti FullCalendar -->
+                                    <div id="mini-calendar"></div>
+                                    <small class="text-muted">Pilih tanggal untuk melihat agenda</small>
                                 </div>
                             </div>
                         </div>
-                        <div class="single-widget-item hidden-sm">
-                            <div class="single-widget-container">
-                                <a href="#">
-                                    <img src="img/banner/11.jpg" alt="">
-                                    <span>Enroll Your Child</span>
-                                </a>
-                            </div>
-                        </div>  
+                        
                         <div class="single-widget-item">
                             <div class="single-title">
-                                <h3>Tags</h3>
+                                <h3>Kategori Agenda</h3>
                             </div>
                             <div class="single-widget-container">
-                                <ul class="tag-list">                  
-                                    <li><a href="#">Art Class</a></li>
-                                    <li><a href="#">Class</a></li>
-                                    <li><a href="#">Letter</a></li>
-                                    <li><a href="#">Sport Class</a></li>
-                                    <li><a href="#">Learn</a></li>
-                                    <li><a href="#">Color</a></li>
-                                    <li><a href="#">Language</a></li>
-                                    <li><a href="#">Paint</a></li>
-                                    <li><a href="#">Letter</a></li>
-                                    <li><a href="#">Paint Class</a></li>
-                                    <li><a href="#">Toys</a></li>
-                                    <li><a href="#">Color</a></li>
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="#" class="text-decoration-none">Acara Sekolah</a>
+                                        <span class="badge bg-primary rounded-pill">14</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="#" class="text-decoration-none">Kegiatan Siswa</a>
+                                        <span class="badge bg-primary rounded-pill">8</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="#" class="text-decoration-none">Ujian</a>
+                                        <span class="badge bg-primary rounded-pill">5</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="#" class="text-decoration-none">Pelatihan Guru</a>
+                                        <span class="badge bg-primary rounded-pill">3</span>
+                                    </li>
                                 </ul>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--End of Class List Area-->
-     @endsection
+        <!--End of Agenda List Area-->
+@endsection
+
+@push('styles')
+<style>
+    .agenda-item {
+        transition: all 0.3s ease;
+    }
+    .agenda-item:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+    }
+    .agenda-date {
+        position: relative;
+        margin-bottom: -15px;
+        margin-left: 15px;
+        z-index: 1;
+    }
+    .upcoming-agenda-item {
+        transition: all 0.2s ease;
+    }
+    .upcoming-agenda-item:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+@endpush

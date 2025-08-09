@@ -88,7 +88,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-4">
+                    {{-- <div class="col-lg-5 col-md-4">
                         <div class="header-login-register">
                             <ul class="login">
                                 <li>
@@ -140,7 +140,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
                                                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
                                                     <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
                                                     <li><a href="{{ route('pengumuman') }}">Pengumuman</a></li>
-                                                    <li><a href="class-details.html">Agenda Kegiatan</a></li>
+                                                    <li><a href="{{ route('informasi.agenda') }}">Agenda Kegiatan</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="{{ route('galeri.tampil') }}">Galeri</a>
@@ -204,20 +204,16 @@
                                             <li><a href="index.html">Ekstrakurikuler<i
                                                         class="fa fa-angle-down"></i></a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="about.html">About Us</a></li>
-                                                    <li><a href="blog.html">Blog Page</a></li>
-                                                    <li><a href="blog-details.html">Blog Details Page</a></li>
-                                                    <li><a href="class-grid.html">Class Grid</a></li>
-                                                    <li><a href="class-list.html">Class List</a></li>
-                                                    <li><a href="class-details.html">Class Details</a></li>
-                                                    <li><a href="teacher.html">Teachers Page</a></li>
-                                                    <li><a href="teacher-info.html">Teachers Info</a></li>
-                                                    <li><a href="gallery.html">Gallery</a></li>
-                                                    <li><a href="contact.html">Contact</a></li>
+                                                    <li><a href="about.html">Pramuka</a></li>
+                                                    <li><a href="blog.html">Paskibra</a></li>
+                                                    <li><a href="blog-details.html">Futsal</a></li>
+                                                    <li><a href="class-grid.html">Communication Class</a></li>
+                                                    <li><a href="class-list.html">Kesenian</a></li>
+                                                    <li><a href="class-details.html">Silat</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="gallery.html">Testimoni</a></li>
-                                            <li><a href="{{ route('kontak') }}">Kontak</a></li>
+                                            <li><a href="{{ route('testimoni') }}">Testimoni</a></li>
+                                            <li><a href="{{ route('contact') }}">Kontak</a></li>
                                         </ul>
                                     </nav>
                                 </div>

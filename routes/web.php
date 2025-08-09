@@ -37,10 +37,14 @@ Route::get('/sarana-prasarana', [InterfaceController::class, 'tampilkanSarana'])
 Route::get('/pengumuman', [InterfaceController::class, 'pengumuman'])->name('pengumuman');
 Route::get('/pengumuman/{pengumuman}', [InterfaceController::class, 'show'])->name('pengumuman.show');
 Route::get('/organigram', [InterfaceController::class, 'organigram'])->name('organigram');
-Route::get('/kontak', [InterfaceController::class, 'kontak'])->name('kontak');
+Route::get('/kontak', [InterfaceController::class, 'contact'])->name('contact');
+Route::post('/kontak', [InterfaceController::class, 'submitContact'])->name('contact.submit');
 Route::get('/profil/visi-misi', [InterfaceController::class, 'showVisiMisi'])->name('profil.visi-misi');
 Route::get('/tentang-kami', [InterfaceController::class, 'tentangSekolah'])->name('profil.tentang');
-
+Route::get('/agenda-kegiatan', [InterfaceController::class, 'agenda'])->name('informasi.agenda');
+Route::get('/agenda-search', [InterfaceController::class, 'search'])->name('agenda.search');
+Route::get('/testimoni', [InterfaceController::class, 'testimoni'])->name('testimoni');
+Route::post('/testimoni', [InterfaceController::class, 'storeTestimoni'])->name('testimoni.store');
 
 // Route::get('/teaching-factory', [InterfaceController::class, 'tefaIndex'])->name('teaching');
 
