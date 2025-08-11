@@ -15,6 +15,8 @@ use App\Models\Organigram;
 use App\Models\Jurusan;
 use App\Models\Agenda;
 use App\Models\Testimoni;
+use App\Models\Ekstrakurikuler;
+use App\Models\PostEkstrakurikuler;
 
 class InterfaceController extends Controller
 {
@@ -245,5 +247,73 @@ class InterfaceController extends Controller
         Testimoni::create($validated);
 
         return back()->with('success', 'Terima kasih atas testimoni Anda. Testimoni akan ditampilkan setelah diverifikasi oleh admin.');
+    }
+
+    public function ekskulIndex(Request $request)
+    {
+        $query = PostEkstrakurikuler::with('ekstrakurikuler')->latest();
+        
+        // Filter berdasarkan ekstrakurikuler
+        if ($request->has('ekskul_id')) {
+            $query->where('ekstrakurikuler_id', $request->ekskul_id);
+        }
+        
+        // Pencarian
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nama_kegiatan', 'like', '%'.$search.'%')
+                  ->orWhere('deskripsi', 'like', '%'.$search.'%');
+            });
+        }
+        
+        $posts = $query->paginate(5);
+        $ekskuls = Ekstrakurikuler::withCount('posts')->get();
+        $recentPosts = PostEkstrakurikuler::latest()->take(3)->get();
+        
+        return view('interface.ekskul.index', compact('posts', 'ekskuls', 'recentPosts'));
+    }
+
+    /**
+     * Menampilkan detail kegiatan ekstrakurikuler
+     */
+    public function ekskulShow($id)
+    {
+        $post = PostEkstrakurikuler::with('ekstrakurikuler')->findOrFail($id);
+        $relatedPosts = PostEkstrakurikuler::where('ekstrakurikuler_id', $post->ekstrakurikuler_id)
+                            ->where('id', '!=', $id)
+                            ->latest()
+                            ->take(3)
+                            ->get();
+        
+        return view('interface.ekskul.show', compact('post', 'relatedPosts'));
+    }
+
+    /**
+     * Halaman pendaftaran ekstrakurikuler
+     */
+    public function ekskulDaftar()
+    {
+        $ekskuls = Ekstrakurikuler::all();
+        return view('interface.ekskul.daftar', compact('ekskuls'));
+    }
+
+    /**
+     * Proses pendaftaran ekstrakurikuler
+     */
+    public function ekskulStore(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:100',
+            'kelas' => 'required|string|max:10',
+            'ekskul_id' => 'required|exists:ekstrakurikulers,id',
+            'alasan' => 'required|string|min:20',
+        ]);
+        
+        // Proses penyimpanan data pendaftaran
+        // ... bisa disimpan ke model PendaftaranEkskul jika ada
+        
+        return redirect()->route('ekskul.index')
+            ->with('success', 'Pendaftaran ekstrakurikuler berhasil dikirim');
     }
 }

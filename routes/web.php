@@ -45,6 +45,14 @@ Route::get('/agenda-kegiatan', [InterfaceController::class, 'agenda'])->name('in
 Route::get('/agenda-search', [InterfaceController::class, 'search'])->name('agenda.search');
 Route::get('/testimoni', [InterfaceController::class, 'testimoni'])->name('testimoni');
 Route::post('/testimoni', [InterfaceController::class, 'storeTestimoni'])->name('testimoni.store');
+Route::prefix('kegiatan-ekstrakurikuler')->group(function () {
+    Route::get('/', [InterfaceController::class, 'ekskulIndex'])->name('ekskul');
+    Route::get('/cari', [InterfaceController::class, 'ekskulIndex'])->name('ekskul.search');
+    Route::get('/filter/{id}', [InterfaceController::class, 'ekskulIndex'])->name('ekskul.filter');
+    Route::get('/ekstrakurikuler/{id}', [InterfaceController::class, 'ekskulShow'])->name('ekskul.detail');
+    Route::get('/daftar', [InterfaceController::class, 'ekskulDaftar'])->name('ekskul.daftar');
+    Route::post('/daftar', [InterfaceController::class, 'ekskulStore'])->name('ekskul.store');
+});
 
 // Route::get('/teaching-factory', [InterfaceController::class, 'tefaIndex'])->name('teaching');
 

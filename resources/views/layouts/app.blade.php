@@ -201,7 +201,7 @@
                                                         <li><a href="teacher-info.html">Video</a></li>
                                                     </ul> --}}
                                             </li>
-                                            <li><a href="index.html">Ekstrakurikuler<i
+                                            <li><a href="{{ route('ekskul') }}">Ekstrakurikuler<i
                                                         class="fa fa-angle-down"></i></a>
                                                 <ul class="sub-menu">
                                                     <li><a href="about.html">Pramuka</a></li>
