@@ -153,14 +153,12 @@
                             <div class="logo">
                                 {{-- Pastikan variabel $profil ada sebelum digunakan --}}
                                 @if (isset($profil) && $profil->logo)
-                                    <a href="{{ route('beranda') }}">
                                         <img src="{{ asset('storage/' . $profil->logo) }}" alt="Logo {{ $profil->nama_sekolah }}">
-                                    </a>
                                 @else
                                     {{-- Fallback jika logo belum di-set di database --}}
-                                    <a href="{{ route('beranda') }}">
+                                 
                                         <img src="{{ asset('assets/img/logo/logo-default.png') }}" alt="Logo Sekolah">
-                                    </a>
+                                 
                                 @endif
                             </div>
                         </div>
@@ -170,13 +168,12 @@
                                     <nav>
                                         <ul id="nav">
                                             <li><a href="{{ route('beranda') }}">Beranda</a></li>
-                                            <li class="current"><a href="index.html">Profil <i
+                                            <li class="current"><a href="{{ route('profil.tentang') }}">Profil <i
                                                         class="fa fa-angle-down"></i></a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="{{ route('profil.tentang') }}">Tentang Sekolah</a></li>
                                                     <li><a href="{{ route('profil.visi-misi') }}">Visi dan Misi</a></li>
                                                     <li><a href="{{ route('organigram') }}">Organigram</a></li>
-                                                    <li><a href="index-4.html">Jurusan</a></li>
+                                                    <li><a href="{{ route('jurusan') }}">Jurusan</a></li>
                                                     <li><a href="{{ route('guru.tampil') }}">Guru dan Tata Usaha</a>
                                                     </li>
                                                     <li><a href="{{ route('prestasi.tampil') }}">Prestasi</a></li>
@@ -203,14 +200,14 @@
                                             </li>
                                             <li><a href="{{ route('ekskul') }}">Ekstrakurikuler<i
                                                         class="fa fa-angle-down"></i></a>
-                                                <ul class="sub-menu">
+                                                {{-- <ul class="sub-menu">
                                                     <li><a href="about.html">Pramuka</a></li>
                                                     <li><a href="blog.html">Paskibra</a></li>
                                                     <li><a href="blog-details.html">Futsal</a></li>
                                                     <li><a href="class-grid.html">Communication Class</a></li>
                                                     <li><a href="class-list.html">Kesenian</a></li>
                                                     <li><a href="class-details.html">Silat</a></li>
-                                                </ul>
+                                                </ul> --}}
                                             </li>
                                             <li><a href="{{ route('testimoni') }}">Testimoni</a></li>
                                             <li><a href="{{ route('contact') }}">Kontak</a></li>

@@ -1,25 +1,25 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Carbon\Carbon; // <-- Import Carbon
+use Illuminate\Support\Facades\View;
+use App\Models\ProfilSekolah;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+    
     public function register(): void
     {
         //
     }
 
-    
     public function boot(): void
     {
-        
-        Carbon::setLocale('id');
+        View::composer('*', function ($view) {
+            $profil = ProfilSekolah::first();
+            $view->with('profil', $profil);
+        });
+        Paginator::useBootstrap();
     }
 }

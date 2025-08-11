@@ -316,4 +316,10 @@ class InterfaceController extends Controller
         return redirect()->route('ekskul.index')
             ->with('success', 'Pendaftaran ekstrakurikuler berhasil dikirim');
     }
+
+    public function jurusan()
+    {
+        $jurusans = Jurusan::all();
+        return view('interface.profile.jurusan', compact('jurusans'));
+    }
 }
