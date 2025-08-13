@@ -7,11 +7,7 @@
 {{-- Memulai bagian konten utama yang akan ditampilkan di dalam layout --}}
 @section('interface')
 
-    <!--
-            Area Breadcrumb dan Banner Halaman.
-            Background gambar sekarang diatur dari tabel 'backgrounds'.
-            Mencari gambar dengan key 'visi_misi'.
-        -->
+    <!-- Area Breadcrumb dan Banner Halaman -->
     <div class="breadcrumb-banner-area"
         style="background-image: url('{{ $background && $background->gambar ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
@@ -103,8 +99,8 @@
                                 <div class="widget-image">
                                     <a href="#">
                                         <img src="{{ asset('storage/' . $profil->foto_kepala_sekolah) }}"
-                                            alt="Foto Kepala Sekolah"
-                                            onerror="this.onerror=null;this.src='https://placehold.co/300x300/EFEFEF/AAAAAA&text=Foto+KS';">
+                                             alt="Foto Kepala Sekolah"
+                                             onerror="this.onerror=null;this.src='https://placehold.co/300x300/EFEFEF/AAAAAA&text=%EF%80%87&font=fontawesome';">
                                     </a>
                                 </div>
                                 <div class="widget-infos">

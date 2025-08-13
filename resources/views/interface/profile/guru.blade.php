@@ -1,22 +1,51 @@
 @extends('layouts.app')
-@section('title', 'Guru')
+@section('title', 'Guru & Staf')
+
+@push('styles')
+<style>
+    .teachers-image-column img {
+        height: 280px;
+        width: 100%;
+        object-fit: cover;
+    }
+    .single-teachers-column {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .teacher-column-carousel-text {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .teacher-column-carousel-text .info {
+        flex-grow: 1;
+    }
+    /* Memastikan link pada nama tidak mengubah warna default */
+    .teacher-column-carousel-text h4 a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .teacher-column-carousel-text h4 a:hover {
+        color: #00b5b5; /* Warna hover, sesuaikan dengan tema Anda */
+    }
+</style>
+@endpush
+
 @section('interface')
-    <!-- 
-        Area Breadcrumb dan Banner Halaman.
-        Background gambar sekarang diatur dari tabel 'backgrounds'.
-        Mencari gambar dengan key 'guru'.
-    -->
+    <!--Breadcrumb Banner Area Start-->
     <div class="breadcrumb-banner-area teachers"
          style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="breadcrumb-text">
-                        <h1 class="text-center">Daftar Guru</h1>
+                        <h1 class="text-center">Guru & Staf</h1>
                         <div class="breadcrumb-bar">
                             <ul class="breadcrumb">
                                 <li><a href="{{ url('/') }}">Beranda</a></li>
-                                <li>Guru</li>
+                                <li>Guru & Staf</li>
                             </ul>
                         </div>
                     </div>
@@ -24,48 +53,42 @@
             </div>
         </div>
     </div>
+    <!--End of Breadcrumb Banner Area-->
+
+    <!--Teacher Fullwidth Area Start-->
     <div class="teacher-fullwidth-area section-padding">
         <div class="container">
             <div class="row">
 
-                {{-- Kita akan melakukan looping data guru di sini --}}
                 @forelse ($semuaGuru as $guru)
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
                         <div class="single-teachers-column text-center">
                             <div class="teachers-image-column">
-                                {{-- Link bisa diarahkan ke halaman detail guru nanti --}}
-                                <a href="#"> 
-                                    <img src="{{ $guru->foto ? asset('storage/' . $guru->foto) : 'https://placehold.co/300x300/EFEFEF/AAAAAA&text=Foto' }}" 
+                                {{-- Tautan sekarang mengarah ke halaman detail guru --}}
+                                <a href="{{ route('guru.detail', $guru->id) }}"> 
+                                    <img src="{{ $guru->foto ? asset('storage/' . $guru->foto) : 'https://placehold.co/300x300/EFEFEF/AAAAAA?text=%EF%80%87&font=fontawesome' }}" 
                                          alt="{{ $guru->nama }}"
-                                         onerror="this.onerror=null;this.src='https://placehold.co/300x300/EFEFEF/AAAAAA&text=Foto';">
+                                         onerror="this.onerror=null;this.src='https://placehold.co/300x300/EFEFEF/AAAAAA?text=%EF%80%87&font=fontawesome';">
                                     <span class="image-hover">
-                                        <span><i class="fa fa-edit"></i>Lihat Profil</span>
+                                        <span><i class="fa fa-user"></i>Lihat Profil</span>
                                     </span>
                                 </a>
                             </div>
                             <div class="teacher-column-carousel-text">
-                                <h4>{{ $guru->nama }}</h4>
-
-                                {{-- Menampilkan Jabatan dan Jurusan (jika ada) --}}
-                                <span>
-                                    {{ $guru->jabatan }}
-                                    @if ($guru->jurusan)
-                                        | {{ $guru->jurusan->nama_jurusan }}
-                                    @endif
-                                </span>
-
-                                {{-- Bagian media sosial --}}
+                                <div class="info">
+                                    {{-- Nama guru juga sekarang menjadi tautan --}}
+                                    <h4><a href="{{ route('guru.detail', $guru->id) }}">{{ $guru->nama }}</a></h4>
+                                    <span>{{ $guru->jabatan }} @if($guru->jurusan) | {{ $guru->jurusan->nama_jurusan }} @endif</span>
+                                </div>
                                 <div class="social-links">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    @if($guru->facebook_url) <a href="{{ $guru->facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a> @endif
+                                    @if($guru->instagram_url) <a href="{{ $guru->instagram_url }}" target="_blank"><i class="fa fa-instagram"></i></a> @endif
+                                    @if($guru->linkedin_url) <a href="{{ $guru->linkedin_url }}" target="_blank"><i class="fa fa-linkedin"></i></a> @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    {{-- Pesan ini akan muncul jika tidak ada data guru sama sekali --}}
                     <div class="col-12 text-center">
                         <div class="alert alert-info">
                             Saat ini belum ada data guru yang tersedia.
@@ -74,12 +97,7 @@
                 @endforelse
 
             </div>
-            {{-- Pagination links bisa ditambahkan di sini jika Anda menggunakan paginate() di controller --}}
-            {{-- <div class="row mt-4">
-                <div class="col-12 d-flex justify-content-center">
-                    {{ $semuaGuru->links() }}
-                </div>
-            </div> --}}
         </div>
     </div>
+    <!--End of Teacher Fullwidth Area-->
 @endsection

@@ -1,5 +1,24 @@
 @extends('layouts.app')
 @section('title', 'Sarana dan Prasarana')
+
+@push('styles')
+<style>
+    /* PERBAIKAN: Membuat area gambar memiliki ukuran yang konsisten */
+    .single-items .overlay-effect > a {
+        display: block;
+        height: 260px; /* Atur tinggi yang sama untuk semua area gambar */
+        background-color: #f0f0f0; /* Warna latar jika gambar gagal dimuat */
+    }
+
+    /* Memastikan gambar mengisi area container tanpa distorsi */
+    .single-items .overlay-effect img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+@endpush
+
 @section('interface')
     <!-- 
         Area Breadcrumb dan Banner Halaman.
@@ -68,7 +87,7 @@
                         </div>
                     @endforelse
 
-                </div> 	
+                </div>  
             </div>
         </div>
     </div>

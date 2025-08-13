@@ -41,7 +41,9 @@ Route::prefix('galeri')->group(function () {
 });
 Route::get('/galeri', [InterfaceController::class, 'tampilkanGaleri'])->name('galeri.tampil');
 Route::get('/guru', [InterfaceController::class, 'tampilkanGuru'])->name('guru.tampil');
+Route::get('/guru/{id}', [InterfaceController::class, 'detailGuru'])->name('guru.detail');
 Route::get('/prestasi', [InterfaceController::class, 'tampilkanPrestasi'])->name('prestasi.tampil');
+Route::get('/prestasi/{id}', [InterfaceController::class, 'prestasiDetail'])->name('prestasi.detail');
 Route::get('/sarana-prasarana', [InterfaceController::class, 'tampilkanSarana'])->name('sarana.tampil');
 Route::get('/pengumuman', [InterfaceController::class, 'pengumuman'])->name('pengumuman');
 Route::get('/pengumuman/{pengumuman}', [InterfaceController::class, 'show'])->name('pengumuman.show');

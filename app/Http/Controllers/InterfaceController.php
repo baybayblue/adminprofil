@@ -132,6 +132,15 @@ class InterfaceController extends Controller
         ]);
     }
 
+    public function detailGuru($id)
+    {
+        $guru = Guru::with('jurusan')->findOrFail($id);
+
+        $background = Background::where('halaman', 'guru')->first();
+
+        return view('interface.profile.guru-detail', compact('guru', 'background'));
+    }
+
     public function tampilkanPrestasi()
     {
         $semuaPrestasi = Prestasi::orderBy('created_at', 'desc')->paginate(9);
@@ -141,6 +150,20 @@ class InterfaceController extends Controller
             'semuaPrestasi' => $semuaPrestasi,
             'background' => $background,
         ]);
+    }
+
+    public function prestasiDetail($id)
+    {
+        // Cari prestasi berdasarkan ID
+        $prestasi = Prestasi::findOrFail($id);
+
+        // Ambil 5 prestasi terbaru untuk sidebar
+        $recentPrestasi = Prestasi::latest()->where('id', '!=', $id)->take(5)->get();
+        
+        // Ambil background untuk halaman
+        $background = Background::where('halaman', 'prestasi')->first();
+
+        return view('interface.profile.prestasi-detail', compact('prestasi', 'recentPrestasi', 'background'));
     }
 
     public function tampilkanSarana()
@@ -215,9 +238,16 @@ class InterfaceController extends Controller
 
     public function tentangSekolah()
     {
+        // Mengambil data profil sekolah pertama
         $profil = ProfilSekolah::first();
-        $background = Background::where('halaman', 'tentang')->first();
-        return view('interface.profile.tentang', compact('profil', 'background'));
+        
+        // Mengambil 6 item sarana pertama untuk ditampilkan di halaman "Tentang"
+        $saranas = Sarana::take(6)->get();
+        
+        // Mengambil background untuk halaman
+        $background = Background::where('halaman', 'visi_misi')->first(); // Anda bisa ganti key 'visi_misi' jika perlu
+
+        return view('interface.profile.tentang', compact('profil', 'saranas', 'background'));
     }
 
     public function agenda()
@@ -310,7 +340,7 @@ class InterfaceController extends Controller
 
         // Buat daftar judul unik untuk tombol filter
         $filterJudul = $semuaFoto->pluck('nama_kegiatan')->unique();
-        
+
         // Ambil background untuk halaman
         $background = Background::where('halaman', 'galeri')->first(); // Menggunakan background galeri
 

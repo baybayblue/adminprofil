@@ -1,11 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Prestasi')
 @section('interface')
-    <!-- 
-        Area Breadcrumb dan Banner Halaman.
-        Background gambar sekarang diatur dari tabel 'backgrounds'.
-        Mencari gambar dengan key 'prestasi'.
-    -->
+    <!-- Area Breadcrumb dan Banner Halaman -->
     <div class="breadcrumb-banner-area blog"
          style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
@@ -34,27 +30,22 @@
                         <div class="single-blog-item overlay-hover">
                             <div class="single-blog-image">
                                 <div class="overlay-effect">
-                                    {{-- Link bisa diarahkan ke halaman detail nanti --}}
-                                    <a href="#">
+                                    {{-- Link sekarang mengarah ke halaman detail --}}
+                                    <a href="{{ route('prestasi.detail', $prestasi->id) }}">
                                         <img src="{{ $prestasi->foto ? asset('storage/' . $prestasi->foto) : 'https://placehold.co/400x300/EFEFEF/AAAAAA&text=Prestasi' }}" 
                                              alt="{{ $prestasi->nama_prestasi }}"
                                              onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
-
-                                        {{-- Menampilkan tanggal dari data 'created_at' --}}
                                         <span class="class-date">{{ $prestasi->created_at->format('M d') }} <span>{{ $prestasi->created_at->format('Y') }}</span></span>
                                     </a>
                                 </div>
                             </div>
                             <div class="single-blog-text">
-                                <h4><a href="#">{{ $prestasi->nama_prestasi }}</a></h4>
+                                <h4><a href="{{ route('prestasi.detail', $prestasi->id) }}">{{ $prestasi->nama_prestasi }}</a></h4>
                                 <div class="blog-date">
                                     <span><i class="fa fa-calendar"></i>{{ $prestasi->created_at->format('d M, Y') }}</span>
                                 </div>
-
-                                {{-- Batasi deskripsi agar tidak terlalu panjang di halaman utama --}}
-                                <p>{{ \Illuminate\Support\Str::limit($prestasi->deskripsi, 120, '...') }}</p>
-
-                                <a href="#">Baca selengkapnya.</a>
+                                <p>{{ \Illuminate\Support\Str::limit(strip_tags($prestasi->deskripsi), 120, '...') }}</p>
+                                <a href="{{ route('prestasi.detail', $prestasi->id) }}">Baca selengkapnya...</a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +61,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="pagination-content">
-                        {{-- Link pagination dari controller --}}
                         {{ $semuaPrestasi->links() }}
                     </div>
                 </div>

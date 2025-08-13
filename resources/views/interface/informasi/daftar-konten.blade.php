@@ -1,12 +1,32 @@
 @extends('layouts.app')
 @section('title', $judulHalaman)
+
+@push('styles')
+<style>
+    .single-blog-image img {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+    }
+    .single-blog-item {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .single-blog-text {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .single-blog-text p {
+        flex-grow: 1;
+    }
+</style>
+@endpush
+
 @section('interface')
-    <!-- 
-        Area Breadcrumb dan Banner Halaman.
-        Background gambar sekarang diatur dari tabel 'backgrounds'.
-        Mencari gambar dengan key 'konten'.
-    -->
-    <div class="breadcrumb-banner-area"
+    <!--Breadcrumb Banner Area Start-->
+    <div class="breadcrumb-banner-area blog"
          style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="row">
@@ -24,51 +44,53 @@
             </div>
         </div>
     </div>
-    <div class="class-list-area section-padding">
+    <!--End of Breadcrumb Banner Area-->
+
+    <!--Blog Fullwidth Area Start-->
+    <div class="blog-fullwidth-area section-padding blog-two">
         <div class="container">
             <div class="row">
-                <div class="col-xl-9 col-lg-8">
-                    @forelse ($kontens as $konten)
-                    <div class="class-list-item">
-                        <div class="row">
-                            <div class="col-xl-5 col-lg-6 col-md-6">
-                                {{-- Link ini akan otomatis ke 'berita.detail' atau 'artikel.detail' --}}
-                                <a href="{{ route($konten->jenis . '.detail', $konten->slug) }}">
-                                    <img src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}"
-                                         onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
-                                </a>
+                @forelse ($kontens as $konten)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-blog-item overlay-hover">
+                            <div class="single-blog-image">
+                                <div class="overlay-effect">
+                                    <a href="{{ route($konten->jenis . '.detail', $konten->slug) }}">
+                                        <img src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}"
+                                             onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
+                                        <span class="class-date">{{ $konten->tgl_publikasi->format('M d') }} <span>{{ $konten->tgl_publikasi->format('Y') }}</span></span>
+                                    </a>
+                                </div>   
                             </div>
-                            <div class="col-xl-7 col-lg-6 col-md-6">
-                                <div class="class-list-text">
-                                    <h3><a href="{{ route($konten->jenis . '.detail', $konten->slug) }}">{{ $konten->judul }}</a></h3>
-                                    <div class="class-information">
-                                        <span>Tanggal Publikasi: {{ $konten->tgl_publikasi->format('d F Y') }}</span>
-                                    </div>
-                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($konten->isi), 200, '...') }}</p>
-                                    <a href="{{ route($konten->jenis . '.detail', $konten->slug) }}" class="button-default">Read More <i class="fa fa-angle-right"></i></a>
+                            <div class="single-blog-text">
+                                <h4><a href="{{ route($konten->jenis . '.detail', $konten->slug) }}">{{ $konten->judul }}</a></h4>
+                                <div class="blog-date">
+                                    <span><i class="fa fa-calendar"></i>{{ $konten->tgl_publikasi->format('d F, Y') }}</span>
                                 </div>
+                                <p>{{ \Illuminate\Support\Str::limit(strip_tags($konten->isi), 100, '...') }}</p>
+                                <a href="{{ route($konten->jenis . '.detail', $konten->slug) }}">Baca selengkapnya...</a>
                             </div>
                         </div>
                     </div>
-                    @empty
-                    <div class="col-12">
-                        <div class="alert alert-info text-center">
+                @empty
+                    <div class="col-12 text-center">
+                        <div class="alert alert-info">
                             Belum ada {{ strtolower($judulHalaman) }} yang dipublikasikan.
                         </div>
                     </div>
-                    @endforelse
-                    
+                @endforelse
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="pagination-content">
                         <div class="pagination-button">
-                           {{ $kontens->links() }}
+                            {{-- Menampilkan link pagination --}}
+                            {{ $kontens->links() }}
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-3 col-lg-4">
-                    {{-- Sidebar bisa Anda isi di sini, misalnya dengan daftar kategori atau berita terbaru --}}
-                    {{-- @include('partials.sidebar') Contoh jika Anda punya file sidebar terpisah --}}
                 </div>
             </div>
         </div>
     </div>
+    <!--End of Blog Fullwidth Area-->
 @endsection
