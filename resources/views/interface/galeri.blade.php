@@ -1,5 +1,24 @@
 @extends('layouts.app')
 @section('title', 'Galeri')
+
+@push('styles')
+<style>
+    /* PERBAIKAN: Membuat area gambar memiliki ukuran yang konsisten */
+    .single-items .overlay-effect > a {
+        display: block;
+        height: 260px; /* Atur tinggi yang sama untuk semua area gambar */
+        background-color: #f0f0f0; /* Warna latar belakang jika gambar gagal dimuat */
+    }
+
+    /* Menyamakan ukuran semua gambar di galeri */
+    .single-items .overlay-effect img {
+        width: 100%;
+        height: 100%; /* Ubah tinggi menjadi 100% untuk mengisi area container */
+        object-fit: cover; /* Memastikan gambar terisi penuh tanpa distorsi */
+    }
+</style>
+@endpush
+
 @section('interface')
 
     <!-- 
@@ -58,14 +77,31 @@
                                         <span class="gallery-text">{{ $item->judul }}</span>
                                     </div>
                                 @else
-                                    {{-- Tampilan untuk VIDEO --}}
-                                    {{-- Untuk video, thumbnail bisa dibuat dinamis jika ada fiturnya, jika tidak, gunakan placeholder --}}
+                                    {{-- Tampilan untuk VIDEO (KODE YANG DIPERBARUI) --}}
+                                    @php
+                                        // Logika untuk menentukan URL thumbnail
+                                        $thumbnailUrl = 'https://placehold.co/400x300/EFEFEF/AAAAAA&text=Video'; // Default placeholder
+
+                                        // 1. Prioritaskan thumbnail yang diunggah manual
+                                        if ($item->thumbnail) {
+                                            $thumbnailUrl = asset('storage/' . $item->thumbnail);
+                                        } 
+                                        // 2. Jika tidak ada, coba ambil dari YouTube
+                                        elseif (preg_match('/(?:\?v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/', $item->file, $matches)) {
+                                            if (isset($matches[1])) {
+                                                // Ambil gambar kualitas medium dari YouTube
+                                                $thumbnailUrl = 'https://img.youtube.com/vi/' . $matches[1] . '/mqdefault.jpg';
+                                            }
+                                        }
+                                    @endphp
+
                                     <a href="#">
-                                        <img src="{{ $item->thumbnail ? asset('storage/' . $item->thumbnail) : 'https://placehold.co/400x300/000000/FFFFFF&text=Video' }}" alt="{{ $item->judul }}"
+                                        {{-- Tampilkan thumbnail yang sudah ditentukan --}}
+                                        <img src="{{ $thumbnailUrl }}" alt="{{ $item->judul }}"
                                              onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Video';">
                                     </a>
                                     <div class="gallery-hover-effect">
-                                        {{-- Link ke URL video untuk lightbox (venobox) --}}
+                                        {{-- Link ini untuk memutar video saat ikon di-klik (Typo 'class.' diperbaiki) --}}
                                         <a class="gallery-icon venobox" data-vbtype="video" href="{{ $item->file }}"><i class="fa fa-video-camera"></i></a>
                                         <span class="gallery-text">{{ $item->judul }}</span>
                                     </div>

@@ -1,9 +1,73 @@
 @extends('layouts.app')
 @section('title', 'Tentang Kami')
+
+@push('styles')
+<style>
+    .facility-card {
+        background: #fff;
+        padding: 30px 20px;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+    .facility-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .facility-icon {
+        font-size: 40px;
+        color: #f39c12;
+        margin-bottom: 15px;
+    }
+    .achievement-box {
+        background: #fff;
+        padding: 40px 20px;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .achievement-number {
+        font-size: 50px;
+        font-weight: 700;
+        color: #f39c12;
+        margin-bottom: 10px;
+    }
+    .about-us span {
+        display: block;
+        margin-bottom: 8px;
+    }
+    .about-us i {
+        color: #f39c12;
+        margin-right: 10px;
+    }
+    .vision-box, .mission-box {
+        background: #fff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+    .vision-box h4 i {
+        color: #3498db;
+        margin-right: 10px;
+    }
+    .mission-box h4 i {
+        color: #2ecc71;
+        margin-right: 10px;
+    }
+</style>
+@endpush
+
 @section('interface')
 
-<!-- Breadcrumb Area Start -->
-<div class="breadcrumb-banner-area">
+<!-- 
+    Area Breadcrumb dan Banner Halaman.
+    Background gambar sekarang diatur dari tabel 'backgrounds'.
+    Anda mungkin perlu menambahkan key 'tentang' di controller Anda.
+-->
+<div class="breadcrumb-banner-area"
+     style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -78,7 +142,7 @@
                         <p>Identitas dan sejarah singkat sekolah kami</p>
                     </div>
                 </div> 
-            </div>       
+            </div>      
         </div>
         <div class="row">
             <div class="col-lg-6">
@@ -88,7 +152,7 @@
                     </div>
                     
                     <h4 class="mb-3">{{ $profil->nama_sekolah ?? 'SMK Contoh' }}</h4>
-                    <p>{{ $profil->sejarah ?? 'SMK kami berdiri dengan komitmen untuk menyiapkan tenaga kerja terampil yang siap bersaing di dunia industri. Dengan fasilitas praktikum yang memadai dan kerjasama yang kuat dengan dunia usaha/dunia industri, kami bertekad menjadi lembaga pendidikan vokasi unggulan.' }}</p>
+                    <p>{!! $profil->sejarah ?? 'SMK kami berdiri dengan komitmen untuk menyiapkan tenaga kerja terampil yang siap bersaing di dunia industri. Dengan fasilitas praktikum yang memadai dan kerjasama yang kuat dengan dunia usaha/dunia industri, kami bertekad menjadi lembaga pendidikan vokasi unggulan.' !!}</p>
                     
                     <div class="about-us">
                         <span><i class="fa fa-check-circle"></i> <strong>NPSN:</strong> {{ $profil->npsn ?? '12345678' }}</span>
@@ -130,22 +194,19 @@
                         <p>Landasan dalam penyelenggaraan pendidikan</p>
                     </div>
                 </div> 
-            </div>       
+            </div>      
         </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="vision-box">
                     <h4><i class="fa fa-bullseye"></i> Visi</h4>
-                    <p>{{ $profil->visi ?? '"Menjadi SMK unggulan yang menghasilkan lulusan kompeten, berkarakter, dan siap bersaing di dunia kerja global."' }}</p>
+                    <p>{!! $profil->visi ?? '"Menjadi SMK unggulan yang menghasilkan lulusan kompeten, berkarakter, dan siap bersaing di dunia kerja global."' !!}</p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="mission-box">
                     <h4><i class="fa fa-tasks"></i> Misi</h4>
-                    <p>{{ $profil->misi ?? '1. Menyelenggarakan pendidikan vokasi berbasis kompetensi<br>
-                    2. Mengembangkan kerjasama dengan dunia usaha/industri<br>
-                    3. Membentuk karakter peserta didik yang berakhlak mulia<br>
-                    4. Menerapkan budaya kerja industri di lingkungan sekolah' }}</p>
+                    <div>{!! $profil->misi ?? '1. Menyelenggarakan pendidikan vokasi berbasis kompetensi<br>2. Mengembangkan kerjasama dengan dunia usaha/industri<br>3. Membentuk karakter peserta didik yang berakhlak mulia<br>4. Menerapkan budaya kerja industri di lingkungan sekolah' !!}</div>
                 </div>
             </div>
         </div>
@@ -164,7 +225,7 @@
                         <p>Dukungan infrastruktur untuk pembelajaran vokasi</p>
                     </div>
                 </div> 
-            </div>       
+            </div>      
         </div>
         <div class="row">
             <div class="col-md-4 mb-4">
@@ -237,7 +298,7 @@
                         <p>Beberapa bukti kualitas pendidikan kami</p>
                     </div>
                 </div> 
-            </div>       
+            </div>      
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -273,64 +334,6 @@
 <!-- End of Prestasi Sekolah -->
 
 @endsection
-
-@push('styles')
-<style>
-    .facility-card {
-        background: #fff;
-        padding: 30px 20px;
-        border-radius: 5px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        height: 100%;
-        transition: all 0.3s ease;
-        text-align: center;
-    }
-    .facility-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    .facility-icon {
-        font-size: 40px;
-        color: #f39c12;
-        margin-bottom: 15px;
-    }
-    .achievement-box {
-        background: #fff;
-        padding: 40px 20px;
-        border-radius: 5px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    .achievement-number {
-        font-size: 50px;
-        font-weight: 700;
-        color: #f39c12;
-        margin-bottom: 10px;
-    }
-    .about-us span {
-        display: block;
-        margin-bottom: 8px;
-    }
-    .about-us i {
-        color: #f39c12;
-        margin-right: 10px;
-    }
-    .vision-box, .mission-box {
-        background: #fff;
-        padding: 30px;
-        border-radius: 5px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        height: 100%;
-    }
-    .vision-box h4 i {
-        color: #3498db;
-        margin-right: 10px;
-    }
-    .mission-box h4 i {
-        color: #2ecc71;
-        margin-right: 10px;
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script src="{{ asset('js/jquery.counterup.min.js') }}"></script>

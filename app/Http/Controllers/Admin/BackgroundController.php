@@ -16,6 +16,7 @@ class BackgroundController extends Controller
         
         // Definisikan semua halaman yang membutuhkan background
         $halamanList = [
+            'tentang' => 'Tentang',
             'visi_misi' => 'Visi & Misi',
             'organigram' => 'Organigram',
             'jurusan' => 'Jurusan',

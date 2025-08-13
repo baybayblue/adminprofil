@@ -193,7 +193,6 @@
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Teaching Factory</a></li>
                                             <li><a href="class-grid.html">Informasi <i class="fa fa-angle-down"></i></a>
                                                 <ul class="sub-menu">
                                                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
@@ -208,6 +207,9 @@
                                             <li><a href="{{ route('ekskul') }}">Ekstrakurikuler</a>
                                             </li>
                                             <li><a href="{{ route('testimoni') }}">Testimoni</a></li>
+                                            <li><a href="https://coreproject.smakniscjr.sch.id/" target="_blank" class="undecorated-link">
+                                                Teaching Factory
+                                                </a</li>
                                             <li><a href="{{ route('contact') }}">Kontak</a></li>
                                         </ul>
                                     </nav>
@@ -243,35 +245,32 @@
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="mobile-menu">
                             <nav id="dropdown">
+                                {{-- MENU MOBILE (SEKARANG SAMA DENGAN MENU DESKTOP) --}}
                                 <ul>
-                                    <li><a href="index.html">HOME</a>
+                                    <li><a href="{{ route('beranda') }}">Beranda</a></li>
+                                    <li><a href="{{ route('profil.tentang') }}">Profil</a>
                                         <ul>
-                                            <li><a href="index-2.html">Homepage Version 2</a></li>
-                                            <li><a href="index-3.html">Homepage Version 3</a></li>
-                                            <li><a href="index-4.html">Homepage Version 4</a></li>
-                                            <li><a href="index-5.html">Homepage Version 5</a></li>
+                                            <li><a href="{{ route('profil.visi-misi') }}">Visi dan Misi</a></li>
+                                            <li><a href="{{ route('organigram') }}">Organigram</a></li>
+                                            <li><a href="{{ route('jurusan') }}">Jurusan</a></li>
+                                            <li><a href="{{ route('guru.tampil') }}">Guru & Staf</a></li>
+                                            <li><a href="{{ route('prestasi.tampil') }}">Prestasi</a></li>
+                                            <li><a href="{{ route('sarana.tampil') }}">Sarana Prasarana</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="class-grid.html">Classes</a>
+                                    <li><a href="#">Informasi</a>
                                         <ul>
-                                            <li><a href="class-grid.html">Classes Grid</a></li>
-                                            <li><a href="class-list.html">Classes List</a></li>
-                                            <li><a href="class-details.html">Class Details</a></li>
+                                            <li><a href="{{ route('berita.index') }}">Berita</a></li>
+                                            <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
+                                            <li><a href="{{ route('pengumuman') }}">Pengumuman</a></li>
+                                            <li><a href="{{ route('informasi.agenda') }}">Agenda Kegiatan</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="teacher.html">Teachers Page</a>
-                                        <ul>
-                                            <li><a href="teacher-info.html">Teachers Info</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="gallery.html">Gallery</a></li>
-                                    <li><a href="blog.html">Blog Page</a>
-                                        <ul>
-                                            <li><a href="blog-details.html">Blog Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">CONTACT</a></li>
+                                    <li><a href="{{ route('galeri.tampil') }}">Galeri</a></li>
+                                    <li><a href="{{ route('ekskul') }}">Ekstrakurikuler</a></li>
+                                    <li><a href="{{ route('testimoni') }}">Testimoni</a></li>
+                                    <li><a href="https://coreproject.smakniscjr.sch.id/" target="_blank">Teaching Factory</a></li>
+                                    <li><a href="{{ route('contact') }}">Kontak</a></li>
                                 </ul>
                             </nav>
                         </div>

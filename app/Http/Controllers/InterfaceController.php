@@ -200,7 +200,8 @@ class InterfaceController extends Controller
     public function tentangSekolah()
     {
         $profil = ProfilSekolah::first();
-        return view('interface.profile.tentang', compact('profil'));
+        $background = Background::where('halaman', 'tentang')->first();
+        return view('interface.profile.tentang', compact('profil', 'background'));
     }
 
     public function agenda()
