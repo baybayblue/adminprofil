@@ -1,8 +1,13 @@
-
 @extends('layouts.app')
 @section('title', $judulHalaman)
 @section('interface')
-    <div class="breadcrumb-banner-area">
+    <!-- 
+        Area Breadcrumb dan Banner Halaman.
+        Background gambar sekarang diatur dari tabel 'backgrounds'.
+        Mencari gambar dengan key 'konten'.
+    -->
+    <div class="breadcrumb-banner-area"
+         style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -10,7 +15,7 @@
                         <h1 class="text-center">{{ $judulHalaman }}</h1>
                         <div class="breadcrumb-bar">
                             <ul class="breadcrumb">
-                                <li><a href="{{ url('/') }}">Home</a></li>
+                                <li><a href="{{ url('/') }}">Beranda</a></li>
                                 <li>{{ $judulHalaman }}</li>
                             </ul>
                         </div>
@@ -29,7 +34,8 @@
                             <div class="col-xl-5 col-lg-6 col-md-6">
                                 {{-- Link ini akan otomatis ke 'berita.detail' atau 'artikel.detail' --}}
                                 <a href="{{ route($konten->jenis . '.detail', $konten->slug) }}">
-                                    <img src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}">
+                                    <img src="{{ asset('storage/' . $konten->gambar) }}" alt="{{ $konten->judul }}"
+                                         onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
                                 </a>
                             </div>
                             <div class="col-xl-7 col-lg-6 col-md-6">
@@ -46,7 +52,9 @@
                     </div>
                     @empty
                     <div class="col-12">
-                        <p class="text-center">Belum ada {{ strtolower($judulHalaman) }} yang dipublikasikan.</p>
+                        <div class="alert alert-info text-center">
+                            Belum ada {{ strtolower($judulHalaman) }} yang dipublikasikan.
+                        </div>
                     </div>
                     @endforelse
                     
@@ -57,9 +65,10 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-4">
-                    {{-- Sidebar bisa kamu isi di sini --}}
+                    {{-- Sidebar bisa Anda isi di sini, misalnya dengan daftar kategori atau berita terbaru --}}
+                    {{-- @include('partials.sidebar') Contoh jika Anda punya file sidebar terpisah --}}
                 </div>
             </div>
         </div>
     </div>
-    @endsection
+@endsection

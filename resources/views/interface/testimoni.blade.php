@@ -1,9 +1,51 @@
 @extends('layouts.app')
 @section('title', 'Testimoni')
+
+@push('styles')
+<style>
+    .testimonial-carousel-text {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        position: relative;
+        margin-bottom: 30px;
+    }
+    .testimonial-carousel-text:after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50px;
+        border-width: 15px 15px 0;
+        border-style: solid;
+        border-color: #f8f9fa transparent;
+    }
+    .testimonial-information {
+        display: flex;
+        align-items: center;
+        padding-left: 30px;
+    }
+    .testimonial-image img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .testimoni-form-container {
+        background: #fff;
+    }
+</style>
+@endpush
+
 @section('interface')
 
-<!-- Breadcrumb Area Start -->
-<div class="breadcrumb-banner-area">
+<!-- 
+    Area Breadcrumb dan Banner Halaman.
+    Background gambar sekarang diatur dari tabel 'backgrounds'.
+    Mencari gambar dengan key 'testimoni'.
+-->
+<div class="breadcrumb-banner-area"
+     style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -45,11 +87,9 @@
                 </div>
                 <div class="testimonial-information">
                     <div class="testimonial-image">
-                        @if($testimoni->foto)
-                            <img src="{{ asset('storage/'.$testimoni->foto) }}" alt="{{ $testimoni->nama_pemberi }}" class="img-fluid rounded-circle">
-                        @else
-                            <img src="{{ asset('img/testimoni/default.png') }}" alt="Default testimoni" class="img-fluid rounded-circle">
-                        @endif
+                        <img src="{{ $testimoni->foto ? asset('storage/'.$testimoni->foto) : 'https://placehold.co/70x70/EFEFEF/AAAAAA&text=Foto' }}" 
+                             alt="{{ $testimoni->nama_pemberi }}" class="img-fluid rounded-circle"
+                             onerror="this.onerror=null;this.src='https://placehold.co/70x70/EFEFEF/AAAAAA&text=Foto';">
                     </div>
                     <div class="testimonial-name">
                         <h4>{{ $testimoni->nama_pemberi }}</h4>
@@ -110,42 +150,6 @@
 <!-- End of Testimoni Form Section -->
 
 @endsection
-
-@push('styles')
-<style>
-    .testimonial-carousel-text {
-        background: #f8f9fa;
-        padding: 30px;
-        border-radius: 10px;
-        position: relative;
-        margin-bottom: 30px;
-    }
-    .testimonial-carousel-text:after {
-        content: '';
-        position: absolute;
-        bottom: -15px;
-        left: 50px;
-        border-width: 15px 15px 0;
-        border-style: solid;
-        border-color: #f8f9fa transparent;
-    }
-    .testimonial-information {
-        display: flex;
-        align-items: center;
-        padding-left: 30px;
-    }
-    .testimonial-image img {
-        width: 70px;
-        height: 70px;
-        object-fit: cover;
-        border: 3px solid #fff;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .testimoni-form-container {
-        background: #fff;
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

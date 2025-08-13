@@ -1,7 +1,13 @@
 @extends('layouts.app')
 @section('title', 'Prestasi')
 @section('interface')
-    <div class="breadcrumb-banner-area blog">
+    <!-- 
+        Area Breadcrumb dan Banner Halaman.
+        Background gambar sekarang diatur dari tabel 'backgrounds'.
+        Mencari gambar dengan key 'prestasi'.
+    -->
+    <div class="breadcrumb-banner-area blog"
+         style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -9,7 +15,7 @@
                         <h1 class="text-center">Prestasi Sekolah</h1>
                         <div class="breadcrumb-bar">
                             <ul class="breadcrumb">
-                                <li><a href="{{ url('/') }}">Home</a></li>
+                                <li><a href="{{ url('/') }}">Beranda</a></li>
                                 <li>Prestasi</li>
                             </ul>
                         </div>
@@ -30,12 +36,9 @@
                                 <div class="overlay-effect">
                                     {{-- Link bisa diarahkan ke halaman detail nanti --}}
                                     <a href="#">
-                                        {{-- Cek jika ada foto, jika tidak pakai placeholder --}}
-                                        @if ($prestasi->foto)
-                                            <img src="{{ asset('storage/' . $prestasi->foto) }}" alt="{{ $prestasi->nama_prestasi }}">
-                                        @else
-                                            <img src="https://via.placeholder.com/400x300.png?text=Prestasi" alt="{{ $prestasi->nama_prestasi }}">
-                                        @endif
+                                        <img src="{{ $prestasi->foto ? asset('storage/' . $prestasi->foto) : 'https://placehold.co/400x300/EFEFEF/AAAAAA&text=Prestasi' }}" 
+                                             alt="{{ $prestasi->nama_prestasi }}"
+                                             onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
 
                                         {{-- Menampilkan tanggal dari data 'created_at' --}}
                                         <span class="class-date">{{ $prestasi->created_at->format('M d') }} <span>{{ $prestasi->created_at->format('Y') }}</span></span>
@@ -57,7 +60,9 @@
                     </div>
                 @empty
                     <div class="col-12 text-center">
-                        <p>Saat ini belum ada data prestasi yang ditambahkan.</p>
+                        <div class="alert alert-info">
+                            Saat ini belum ada data prestasi yang ditambahkan.
+                        </div>
                     </div>
                 @endforelse
 
@@ -65,12 +70,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="pagination-content">
-                        {{-- Di sinilah keajaiban pagination Laravel terjadi! --}}
-                        {{-- Baris ini akan otomatis membuat link ke halaman 1, 2, 3, dst. --}}
+                        {{-- Link pagination dari controller --}}
                         {{ $semuaPrestasi->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @endsection
+@endsection

@@ -82,8 +82,13 @@
 </style>
 @endpush
 
-
-<div class="breadcrumb-banner-area">
+<!-- 
+    Area Breadcrumb dan Banner Halaman.
+    Background gambar sekarang diatur dari tabel 'backgrounds'.
+    Mencari gambar dengan key 'konten'.
+-->
+<div class="breadcrumb-banner-area"
+     style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -154,7 +159,9 @@
                             <div class="recent-post-item">
                                 <div class="recent-post-image">
                                     <a href="{{ route('pengumuman.show', $recent->id) }}">
-                                        <img src="{{ asset('img/gallery/15.jpg') }}" alt="Gambar ilustrasi pengumuman">
+                                        {{-- Gambar statis, bisa diganti jika pengumuman punya gambar sendiri --}}
+                                        <img src="{{ asset('img/gallery/15.jpg') }}" alt="Gambar ilustrasi pengumuman"
+                                             onerror="this.onerror=null;this.src='https://placehold.co/80x80/EFEFEF/AAAAAA&text=...';">
                                     </a>
                                 </div>
                                 <div class="recent-post-text">

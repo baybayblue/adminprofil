@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\TestimoniController;
 use App\Http\Controllers\Admin\PrestasiController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\InterfaceController;
+use App\Http\Controllers\Admin\BackgroundController;
+use App\Http\Controllers\Admin\SliderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +74,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     
     // Rute Dasbor & Profil Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+    Route::resource('sliders', SliderController::class);
      Route::get('/profil-admin', [AdminProfileController::class, 'index'])->name('profil_admin.index');
      Route::put('/profil-admin/profile', [AdminProfileController::class, 'updateProfile'])->name('profil_admin.updateProfile');
      Route::put('/profil-admin/password', [AdminProfileController::class, 'updatePassword'])->name('profil_admin.updatePassword');
@@ -99,4 +101,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('ekstrakurikuler', EkstrakurikulerController::class);
     Route::resource('post-ekstrakurikuler', PostEkstrakurikulerController::class);
     Route::resource('prestasi', PrestasiController::class);
+
+    // Rute untuk Kelola Background
+    Route::get('/backgrounds', [BackgroundController::class, 'index'])->name('background.index');
+    Route::post('/backgrounds', [BackgroundController::class, 'store'])->name('background.store');
 });

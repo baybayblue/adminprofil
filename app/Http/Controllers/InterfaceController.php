@@ -17,6 +17,8 @@ use App\Models\Agenda;
 use App\Models\Testimoni;
 use App\Models\Ekstrakurikuler;
 use App\Models\PostEkstrakurikuler;
+use App\Models\Slider;
+use App\Models\Background;
 
 class InterfaceController extends Controller
 {
@@ -24,21 +26,22 @@ class InterfaceController extends Controller
     public function beranda()
     {
         $profil = ProfilSekolah::first();
-
-        // $sliders = Slider::latest()->get();
-        // $berita_terbaru = Artikel::latest()->take(4)->get();
+        $sliders = Slider::where('status', true)->get();
         $galeri_terbaru = Galeri::latest()->take(8)->get();
         $jurusan_list = Jurusan::all();
         $guru_list = Guru::all();
-
-
+        $berita_terbaru = Konten::latest()->take(4)->get();
+    
         return view('interface.beranda', [
             'profil' => $profil,
-            'berita_terbaru' => [], // ganti dengan $berita_terbaru nanti
-            'galeri_terbaru' => [], // ganti dengan $galeri_terbaru nanti
-            'jurusan_list' => [],   // ganti dengan $jurusan_list nanti
+            'berita_terbaru' => $berita_terbaru,
+            'galeri_terbaru' => $galeri_terbaru,
+            'jurusan_list' => $jurusan_list,
+            'guru_list' => $guru_list,
+            'sliders' => $sliders,
         ]);
     }
+    
 
     public function tefaIndex()
     {
@@ -53,9 +56,11 @@ class InterfaceController extends Controller
         $kontens = Konten::where('jenis', $jenis)
             ->orderBy('tgl_publikasi', 'desc')
             ->paginate(5);
+            $background = Background::where('halaman', 'konten')->first();
         return view('interface.informasi.daftar-konten', [
             'kontens' => $kontens,
             'judulHalaman' => $judulHalaman,
+            'background' => $background,
         ]);
     }
 
@@ -92,27 +97,33 @@ class InterfaceController extends Controller
     public function tampilkanGaleri()
     {
         $galeriItems = Galeri::orderBy('created_at', 'desc')->get();
+        $background = Background::where('halaman', 'galeri')->first();
 
         return view('interface.galeri', [
-            'galeriItems' => $galeriItems
+            'galeriItems' => $galeriItems,
+            'background' => $background
         ]);
     }
 
     public function tampilkanGuru()
     {
         $semuaGuru = Guru::with('jurusan')->orderBy('nama', 'asc')->get();
+        $background = Background::where('halaman', 'sarana')->first();
 
         return view('interface.profile.guru', [
-            'semuaGuru' => $semuaGuru
+            'semuaGuru' => $semuaGuru,
+            'background' => $background,
         ]);
     }
 
     public function tampilkanPrestasi()
     {
         $semuaPrestasi = Prestasi::orderBy('created_at', 'desc')->paginate(9);
+        $background = Background::where('halaman', 'sarana')->first();
 
         return view('interface.profile.prestasi', [
-            'semuaPrestasi' => $semuaPrestasi
+            'semuaPrestasi' => $semuaPrestasi,
+            'background' => $background,
         ]);
     }
 
@@ -120,10 +131,12 @@ class InterfaceController extends Controller
     {
         $semuaSarana = Sarana::orderBy('nama_sarana', 'asc')->get();
         $filterSaranas = Sarana::pluck('nama_sarana')->unique();
+        $background = Background::where('halaman', 'sarana')->first();
 
         return view('interface.profile.sarana', [
             'semuaSarana' => $semuaSarana,
             'filterSaranas' => $filterSaranas,
+            'background' => $background,
         ]);
     }
 
@@ -131,7 +144,9 @@ class InterfaceController extends Controller
     {
         $pengumumans = Pengumuman::latest()->paginate(5);
         $recentPengumumans = Pengumuman::latest()->take(4)->get();
-        return view('interface.informasi.pengumuman', compact('pengumumans', 'recentPengumumans'));
+        $background = Background::where('halaman', 'konten')->first();
+
+        return view('interface.informasi.pengumuman', compact('pengumumans', 'recentPengumumans', 'background'));
     }
     public function show(Pengumuman $pengumuman)
     {
@@ -144,14 +159,16 @@ class InterfaceController extends Controller
     public function organigram()
     {
         $organigrams = Organigram::latest()->get();
-        return view('interface.profile.organigram', compact('organigrams'));
+        $background = Background::where('halaman', 'organigram')->first();
+        return view('interface.profile.organigram', compact('organigrams', 'background'));
     }
 
     public function contact()
     {
         $profil = ProfilSekolah::first();
+        $background = Background::where('halaman', 'kontak')->first();
 
-        return view('interface.kontak', compact('profil'));
+        return view('interface.kontak', compact('profil', 'background'));
     }
 
     public function submitContact(Request $request)
@@ -173,10 +190,11 @@ class InterfaceController extends Controller
     public function showVisiMisi()
     {
         $profil = ProfilSekolah::first();
+        $background = Background::where('halaman', 'visi_misi')->first();
         if (!$profil) {
             abort(404, 'Profil sekolah tidak ditemukan.');
         }
-        return view('interface.profile.visi', compact('profil'));
+        return view('interface.profile.visi', compact('profil', 'background'));
     }
 
     public function tentangSekolah()
@@ -195,8 +213,10 @@ class InterfaceController extends Controller
             ->orderBy('tanggal_mulai')
             ->take(4)
             ->get();
+            $background = Background::where('halaman', 'konten')->first();
 
-        return view('interface.informasi.agenda', compact('agendas', 'upcomingAgendas'));
+
+        return view('interface.informasi.agenda', compact('agendas', 'upcomingAgendas', 'background'));
     }
 
     public function search(Request $request)
@@ -221,8 +241,9 @@ class InterfaceController extends Controller
         $testimonis = Testimoni::where('is_published', true)
             ->latest()
             ->get();
+            $background = Background::where('halaman', 'testimoni')->first();
 
-        return view('interface.testimoni', compact('testimonis'));
+        return view('interface.testimoni', compact('testimonis', 'background'));
     }
 
     /**
@@ -252,6 +273,7 @@ class InterfaceController extends Controller
     public function ekskulIndex(Request $request)
     {
         $query = PostEkstrakurikuler::with('ekstrakurikuler')->latest();
+        $background = Background::where('halaman', 'ekstrakurikuler')->first();
         
         // Filter berdasarkan ekstrakurikuler
         if ($request->has('ekskul_id')) {
@@ -271,7 +293,7 @@ class InterfaceController extends Controller
         $ekskuls = Ekstrakurikuler::withCount('posts')->get();
         $recentPosts = PostEkstrakurikuler::latest()->take(3)->get();
         
-        return view('interface.ekskul.index', compact('posts', 'ekskuls', 'recentPosts'));
+        return view('interface.ekskul.index', compact('posts', 'ekskuls', 'recentPosts', 'background'));
     }
 
     /**
@@ -320,6 +342,7 @@ class InterfaceController extends Controller
     public function jurusan()
     {
         $jurusans = Jurusan::all();
-        return view('interface.profile.jurusan', compact('jurusans'));
+        $background = Background::where('halaman', 'sarana')->first();
+        return view('interface.profile.jurusan', compact('jurusans', 'background'));
     }
 }

@@ -3,22 +3,6 @@
 @section('interface')
 
     <style>
-        /* Breadcrumb dengan warna utama web */
-        /* .breadcrumb-banner-area {
-            background: linear-gradient(135deg, #00b5b5, #009b9b);
-            padding: 60px 0;
-            color: white;
-        }
-
-        .breadcrumb-bar .breadcrumb a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .breadcrumb-bar .breadcrumb li {
-            color: rgba(255, 255, 255, 0.8);
-        } */
-
         /* Card style selaras tema */
         .contact-area-container,
         .contact-form {
@@ -68,20 +52,6 @@
             color: white;
         }
 
-        .contact-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #e0f7f7;
-            /* teal muda */
-            color: #00b5b5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-right: 15px;
-        }
-
         .social-btn {
             display: inline-flex;
             align-items: center;
@@ -122,15 +92,20 @@
     </style>
 
 
-    <!-- Breadcrumb Area Start -->
-    <div class="breadcrumb-banner-area text-center">
+    <!-- 
+        Area Breadcrumb dan Banner Halaman.
+        Background gambar sekarang diatur dari tabel 'backgrounds'.
+        Mencari gambar dengan key 'kontak'.
+    -->
+    <div class="breadcrumb-banner-area text-center"
+         style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="breadcrumb-text">
                 <h1>Hubungi Kami</h1>
                 <div class="breadcrumb-bar">
                     <ul class="breadcrumb">
                         <li><a href="{{ url('/') }}">Beranda</a></li>
-                        <li class="text-light">Kontak</li>
+                        <li>Kontak</li>
                     </ul>
                 </div>
             </div>

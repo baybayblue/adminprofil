@@ -1,7 +1,13 @@
 @extends('layouts.app')
 @section('title', 'Guru')
 @section('interface')
-    <div class="breadcrumb-banner-area teachers">
+    <!-- 
+        Area Breadcrumb dan Banner Halaman.
+        Background gambar sekarang diatur dari tabel 'backgrounds'.
+        Mencari gambar dengan key 'guru'.
+    -->
+    <div class="breadcrumb-banner-area teachers"
+         style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -9,7 +15,7 @@
                         <h1 class="text-center">Daftar Guru</h1>
                         <div class="breadcrumb-bar">
                             <ul class="breadcrumb">
-                                <li><a href="{{ url('/') }}">Home</a></li>
+                                <li><a href="{{ url('/') }}">Beranda</a></li>
                                 <li>Guru</li>
                             </ul>
                         </div>
@@ -29,12 +35,9 @@
                             <div class="teachers-image-column">
                                 {{-- Link bisa diarahkan ke halaman detail guru nanti --}}
                                 <a href="#"> 
-                                    {{-- Cek apakah guru punya foto, jika tidak, tampilkan placeholder --}}
-                                    @if ($guru->foto)
-                                        <img src="{{ asset('storage/' . $guru->foto) }}" alt="{{ $guru->nama }}">
-                                    @else
-                                        <img src="https://via.placeholder.com/300x300.png?text=Foto" alt="{{ $guru->nama }}">
-                                    @endif
+                                    <img src="{{ $guru->foto ? asset('storage/' . $guru->foto) : 'https://placehold.co/300x300/EFEFEF/AAAAAA&text=Foto' }}" 
+                                         alt="{{ $guru->nama }}"
+                                         onerror="this.onerror=null;this.src='https://placehold.co/300x300/EFEFEF/AAAAAA&text=Foto';">
                                     <span class="image-hover">
                                         <span><i class="fa fa-edit"></i>Lihat Profil</span>
                                     </span>
@@ -47,11 +50,11 @@
                                 <span>
                                     {{ $guru->jabatan }}
                                     @if ($guru->jurusan)
-                                        | {{ $guru->jurusan->nama }}
+                                        | {{ $guru->jurusan->nama_jurusan }}
                                     @endif
                                 </span>
 
-                                {{-- Sesuai permintaan, bagian media sosial tidak dihapus --}}
+                                {{-- Bagian media sosial --}}
                                 <div class="social-links">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-google-plus"></i></a>
@@ -64,17 +67,19 @@
                 @empty
                     {{-- Pesan ini akan muncul jika tidak ada data guru sama sekali --}}
                     <div class="col-12 text-center">
-                        <p>Saat ini belum ada data guru yang tersedia.</p>
+                        <div class="alert alert-info">
+                            Saat ini belum ada data guru yang tersedia.
+                        </div>
                     </div>
                 @endforelse
 
             </div>
-            {{-- Tombol Load More bisa diimplementasikan dengan pagination nanti --}}
-            {{-- <div class="col-md-12">
-                <div class="button text-center">
-                    <a href="#" class="button-default button-yellow"><i class="fa fa-refresh"></i>Load More</a>
+            {{-- Pagination links bisa ditambahkan di sini jika Anda menggunakan paginate() di controller --}}
+            {{-- <div class="row mt-4">
+                <div class="col-12 d-flex justify-content-center">
+                    {{ $semuaGuru->links() }}
                 </div>
             </div> --}}
         </div>
     </div>
-    @endsection
+@endsection

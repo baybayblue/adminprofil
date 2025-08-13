@@ -16,6 +16,17 @@
   ============================================ -->
     <link href='https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700' rel='stylesheet' type='text/css'>
 
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+
     <!-- Style CSS
   ============================================ -->
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
@@ -153,12 +164,12 @@
                             <div class="logo">
                                 {{-- Pastikan variabel $profil ada sebelum digunakan --}}
                                 @if (isset($profil) && $profil->logo)
-                                        <img src="{{ asset('storage/' . $profil->logo) }}" alt="Logo {{ $profil->nama_sekolah }}">
+                                    <img src="{{ asset('storage/' . $profil->logo) }}"
+                                        alt="Logo {{ $profil->nama_sekolah }}">
                                 @else
                                     {{-- Fallback jika logo belum di-set di database --}}
-                                 
-                                        <img src="{{ asset('assets/img/logo/logo-default.png') }}" alt="Logo Sekolah">
-                                 
+
+                                    <img src="{{ asset('assets/img/logo/logo-default.png') }}" alt="Logo Sekolah">
                                 @endif
                             </div>
                         </div>
@@ -183,31 +194,18 @@
                                                 </ul>
                                             </li>
                                             <li><a href="#">Teaching Factory</a></li>
-                                            <li><a href="class-grid.html">Informasi <i
-                                                        class="fa fa-angle-down"></i></a>
+                                            <li><a href="class-grid.html">Informasi <i class="fa fa-angle-down"></i></a>
                                                 <ul class="sub-menu">
                                                     <li><a href="{{ route('berita.index') }}">Berita</a></li>
                                                     <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
                                                     <li><a href="{{ route('pengumuman') }}">Pengumuman</a></li>
-                                                    <li><a href="{{ route('informasi.agenda') }}">Agenda Kegiatan</a></li>
+                                                    <li><a href="{{ route('informasi.agenda') }}">Agenda Kegiatan</a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                             <li><a href="{{ route('galeri.tampil') }}">Galeri</a>
-                                                {{-- <ul class="sub-menu">
-                                                        <li><a href="teacher-info.html">Photo</a></li>
-                                                        <li><a href="teacher-info.html">Video</a></li>
-                                                    </ul> --}}
                                             </li>
-                                            <li><a href="{{ route('ekskul') }}">Ekstrakurikuler<i
-                                                        class="fa fa-angle-down"></i></a>
-                                                {{-- <ul class="sub-menu">
-                                                    <li><a href="about.html">Pramuka</a></li>
-                                                    <li><a href="blog.html">Paskibra</a></li>
-                                                    <li><a href="blog-details.html">Futsal</a></li>
-                                                    <li><a href="class-grid.html">Communication Class</a></li>
-                                                    <li><a href="class-list.html">Kesenian</a></li>
-                                                    <li><a href="class-details.html">Silat</a></li>
-                                                </ul> --}}
+                                            <li><a href="{{ route('ekskul') }}">Ekstrakurikuler</a>
                                             </li>
                                             <li><a href="{{ route('testimoni') }}">Testimoni</a></li>
                                             <li><a href="{{ route('contact') }}">Kontak</a></li>
@@ -448,6 +446,24 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuU_0_uLMnFM-2oWod_fzC0atPZj7dHlU"></script>
     <script src="https://www.google.com/jsapi"></script>
+    <script src="{{ asset('assets/nivo-slider/jquery.nivo.slider.pack.js') }}"></script>
+    <script>
+        $(window).on('load', function() {
+            $('#nivoslider').nivoSlider({
+                effect: 'random',
+                slices: 15,
+                boxCols: 8,
+                boxRows: 4,
+                animSpeed: 500,
+                pauseTime: 5000,
+                directionNav: true,
+                controlNav: false,
+                pauseOnHover: true,
+                manualAdvance: false,
+            });
+        });
+    </script>
+
     <script>
         function initialize() {
             var mapOptions = {
