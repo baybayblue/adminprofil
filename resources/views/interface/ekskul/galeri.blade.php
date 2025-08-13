@@ -1,15 +1,13 @@
 @extends('layouts.app')
-@section('title', 'Galeri Foto')
+@section('title', 'Galeri ' . $ekskul->nama_eskul)
 
 @push('styles')
 <style>
-    /* Menyamakan ukuran semua gambar di galeri */
     .single-items .overlay-effect > a {
         display: block;
         height: 260px;
         background-color: #f0f0f0;
     }
-
     .single-items .overlay-effect img {
         width: 100%;
         height: 100%;
@@ -26,11 +24,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="breadcrumb-text">
-                        <h1 class="text-center">Galeri Foto</h1>
+                        <h1 class="text-center">Galeri: {{ $ekskul->nama_eskul }}</h1>
                         <div class="breadcrumb-bar">
                             <ul class="breadcrumb">
                                 <li><a href="{{ url('/') }}">Beranda</a></li>
-                                <li>Galeri Foto</li>
+                                <li><a href="{{ route('ekskul.album') }}">Album Ekstrakurikuler</a></li>
+                                <li>{{ $ekskul->nama_eskul }}</li>
                             </ul>
                         </div>
                     </div>
@@ -47,10 +46,8 @@
                 <div class="col-md-12">
                     <div class="filter-menu">
                         <ul>
-                            <li class="filter" data-filter="all">Semua</li>
-                            {{-- Loop untuk membuat tombol filter secara dinamis dari judul --}}
+                            <li class="filter" data-filter="all">Semua Kegiatan</li>
                             @foreach ($filterJudul as $judul)
-                                {{-- Str::slug mengubah "Judul Kegiatan" menjadi "judul-kegiatan" --}}
                                 <li class="filter" data-filter=".{{ Str::slug($judul) }}">{{ $judul }}</li>
                             @endforeach
                         </ul>
@@ -60,23 +57,22 @@
             <div class="filter-items">
                 <div class="row">
                     @forelse ($semuaFoto as $foto)
-                        {{-- Class 'mix' dan class dari judul digunakan oleh javascript filter --}}
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mix single-items {{ Str::slug($foto->judul) }} overlay-hover">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mix single-items {{ Str::slug($foto->nama_kegiatan) }} overlay-hover">
                             <div class="overlay-effect">
                                 <a href="#">
-                                    <img src="{{ asset('storage/' . $foto->file) }}" alt="{{ $foto->judul }}"
+                                    <img src="{{ asset('storage/' . $foto->foto_kegiatan) }}" alt="{{ $foto->nama_kegiatan }}"
                                          onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Foto';">
                                 </a>
                                 <div class="gallery-hover-effect">
-                                    <a class="gallery-icon venobox" href="{{ asset('storage/' . $foto->file) }}"><i class="fa fa-image"></i></a>
-                                    <span class="gallery-text">{{ $foto->judul }}</span>
+                                    <a class="gallery-icon venobox" href="{{ asset('storage/' . $foto->foto_kegiatan) }}"><i class="fa fa-image"></i></a>
+                                    <span class="gallery-text">{{ $foto->nama_kegiatan }}</span>
                                 </div>
                             </div>
                         </div>
                     @empty
                         <div class="col-md-12 text-center">
                             <div class="alert alert-info">
-                                Belum ada foto di galeri.
+                                Belum ada foto kegiatan untuk ekstrakurikuler ini.
                             </div>
                         </div>
                     @endforelse

@@ -31,7 +31,7 @@ class InterfaceController extends Controller
         $jurusan_list = Jurusan::all();
         $guru_list = Guru::all();
         $berita_terbaru = Konten::latest()->take(4)->get();
-    
+
         return view('interface.beranda', [
             'profil' => $profil,
             'berita_terbaru' => $berita_terbaru,
@@ -41,7 +41,7 @@ class InterfaceController extends Controller
             'sliders' => $sliders,
         ]);
     }
-    
+
 
     public function tefaIndex()
     {
@@ -56,7 +56,7 @@ class InterfaceController extends Controller
         $kontens = Konten::where('jenis', $jenis)
             ->orderBy('tgl_publikasi', 'desc')
             ->paginate(5);
-            $background = Background::where('halaman', 'konten')->first();
+        $background = Background::where('halaman', 'konten')->first();
         return view('interface.informasi.daftar-konten', [
             'kontens' => $kontens,
             'judulHalaman' => $judulHalaman,
@@ -103,6 +103,22 @@ class InterfaceController extends Controller
             'galeriItems' => $galeriItems,
             'background' => $background
         ]);
+    }
+
+    public function galeriFoto()
+    {
+        $semuaFoto = Galeri::where('tipe', 'foto')->latest()->get();
+        $filterJudul = $semuaFoto->pluck('judul')->unique();
+        $background = Background::where('halaman', 'galeri')->first();
+        return view('interface.galeri.foto', compact('semuaFoto', 'filterJudul', 'background'));
+    }
+
+    public function galeriVideo()
+    {
+        $semuaVideo = Galeri::where('tipe', 'video')->latest()->get();
+        $filterJudul = $semuaVideo->pluck('judul')->unique();
+        $background = Background::where('halaman', 'galeri')->first();
+        return view('interface.galeri.video', compact('semuaVideo', 'filterJudul', 'background'));
     }
 
     public function tampilkanGuru()
@@ -214,7 +230,7 @@ class InterfaceController extends Controller
             ->orderBy('tanggal_mulai')
             ->take(4)
             ->get();
-            $background = Background::where('halaman', 'konten')->first();
+        $background = Background::where('halaman', 'konten')->first();
 
 
         return view('interface.informasi.agenda', compact('agendas', 'upcomingAgendas', 'background'));
@@ -242,7 +258,7 @@ class InterfaceController extends Controller
         $testimonis = Testimoni::where('is_published', true)
             ->latest()
             ->get();
-            $background = Background::where('halaman', 'testimoni')->first();
+        $background = Background::where('halaman', 'testimoni')->first();
 
         return view('interface.testimoni', compact('testimonis', 'background'));
     }
@@ -259,6 +275,11 @@ class InterfaceController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        // DEBUGGING: Hentikan eksekusi dan tampilkan data yang tervalidasi.
+        // Jika halaman ini muncul setelah submit, berarti route sudah benar.
+        // Hapus atau beri komentar pada baris ini setelah debugging selesai.
+        // dd($validated);
+
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('testimonis', 'public');
         }
@@ -271,73 +292,29 @@ class InterfaceController extends Controller
         return back()->with('success', 'Terima kasih atas testimoni Anda. Testimoni akan ditampilkan setelah diverifikasi oleh admin.');
     }
 
-    public function ekskulIndex(Request $request)
+    public function albumEkskul()
     {
-        $query = PostEkstrakurikuler::with('ekstrakurikuler')->latest();
+        $semuaEkskul = Ekstrakurikuler::latest()->get();
         $background = Background::where('halaman', 'ekstrakurikuler')->first();
-        
-        // Filter berdasarkan ekstrakurikuler
-        if ($request->has('ekskul_id')) {
-            $query->where('ekstrakurikuler_id', $request->ekskul_id);
-        }
-        
-        // Pencarian
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nama_kegiatan', 'like', '%'.$search.'%')
-                  ->orWhere('deskripsi', 'like', '%'.$search.'%');
-            });
-        }
-        
-        $posts = $query->paginate(5);
-        $ekskuls = Ekstrakurikuler::withCount('posts')->get();
-        $recentPosts = PostEkstrakurikuler::latest()->take(3)->get();
-        
-        return view('interface.ekskul.index', compact('posts', 'ekskuls', 'recentPosts', 'background'));
+
+        return view('interface.ekskul.album', compact('semuaEkskul', 'background'));
     }
 
-    /**
-     * Menampilkan detail kegiatan ekstrakurikuler
-     */
-    public function ekskulShow($id)
+    public function galeriEkskul($id)
     {
-        $post = PostEkstrakurikuler::with('ekstrakurikuler')->findOrFail($id);
-        $relatedPosts = PostEkstrakurikuler::where('ekstrakurikuler_id', $post->ekstrakurikuler_id)
-                            ->where('id', '!=', $id)
-                            ->latest()
-                            ->take(3)
-                            ->get();
-        
-        return view('interface.ekskul.show', compact('post', 'relatedPosts'));
-    }
+        // Cari ekstrakurikuler berdasarkan ID, jika tidak ada, tampilkan error 404
+        $ekskul = Ekstrakurikuler::findOrFail($id);
 
-    /**
-     * Halaman pendaftaran ekstrakurikuler
-     */
-    public function ekskulDaftar()
-    {
-        $ekskuls = Ekstrakurikuler::all();
-        return view('interface.ekskul.daftar', compact('ekskuls'));
-    }
+        // Ambil semua post/foto yang berhubungan dengan ekskul ini
+        $semuaFoto = PostEkstrakurikuler::where('ekstrakurikuler_id', $id)->latest()->get();
 
-    /**
-     * Proses pendaftaran ekstrakurikuler
-     */
-    public function ekskulStore(Request $request)
-    {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:100',
-            'kelas' => 'required|string|max:10',
-            'ekskul_id' => 'required|exists:ekstrakurikulers,id',
-            'alasan' => 'required|string|min:20',
-        ]);
+        // Buat daftar judul unik untuk tombol filter
+        $filterJudul = $semuaFoto->pluck('nama_kegiatan')->unique();
         
-        // Proses penyimpanan data pendaftaran
-        // ... bisa disimpan ke model PendaftaranEkskul jika ada
-        
-        return redirect()->route('ekskul.index')
-            ->with('success', 'Pendaftaran ekstrakurikuler berhasil dikirim');
+        // Ambil background untuk halaman
+        $background = Background::where('halaman', 'galeri')->first(); // Menggunakan background galeri
+
+        return view('interface.ekskul.galeri', compact('ekskul', 'semuaFoto', 'filterJudul', 'background'));
     }
 
     public function jurusan()

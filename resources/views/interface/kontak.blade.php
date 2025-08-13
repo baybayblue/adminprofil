@@ -92,13 +92,13 @@
     </style>
 
 
-    <!-- 
-        Area Breadcrumb dan Banner Halaman.
-        Background gambar sekarang diatur dari tabel 'backgrounds'.
-        Mencari gambar dengan key 'kontak'.
-    -->
+    <!--
+            Area Breadcrumb dan Banner Halaman.
+            Background gambar sekarang diatur dari tabel 'backgrounds'.
+            Mencari gambar dengan key 'kontak'.
+        -->
     <div class="breadcrumb-banner-area text-center"
-         style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
+        style="background-image: url('{{ $background && $background->gambar ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
             <div class="breadcrumb-text">
                 <h1>Hubungi Kami</h1>
@@ -239,30 +239,23 @@
                 <div class="col-lg-7">
                     <div class="contact-form">
                         <div class="single-title mb-3">
-                            <h3>Kirim Pesan</h3>
+                            <h3>Kirim Pesan via WhatsApp</h3>
                         </div>
                         <div class="contact-form-container">
-                            <form id="contact-form" action="{{ route('contact.submit') }}" method="POST">
-                                @csrf
+                            <form id="contact-form-wa">
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <input type="text" name="name" class="form-control"
+                                    {{-- Kolom Nama dibuat full width --}}
+                                    <div class="col-md-12 mb-3">
+                                        <input type="text" id="wa_name" name="name" class="form-control"
                                             placeholder="Nama Lengkap *" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <input type="email" name="email" class="form-control"
-                                            placeholder="Alamat Email *" required>
-                                    </div>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" name="subject" class="form-control" placeholder="Subjek Pesan *"
-                                        required>
+                                    <textarea id="wa_message" name="message" class="form-control yourmessage" placeholder="Isi Pesan Anda *" rows="5"
+                                        required></textarea>
                                 </div>
-                                <div class="mb-3">
-                                    <textarea name="message" class="form-control yourmessage" placeholder="Isi Pesan Anda *" rows="5" required></textarea>
-                                </div>
-                                <button type="submit" class="button-default button-yellow submit">
-                                    <i class="fa fa-send"></i> Kirim Pesan
+                                <button type="button" id="send-wa-btn" class="button-default button-yellow submit">
+                                    <i class="fa fa-whatsapp"></i> Kirim via WhatsApp
                                 </button>
                             </form>
                             <p class="form-message mt-3"></p>
@@ -276,3 +269,57 @@
     <!-- End of Contact Area -->
 
 @endsection
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.getElementById('send-wa-btn');
+            const formMessage = document.querySelector('.form-message');
+
+            if (sendButton) {
+                sendButton.addEventListener('click', function() {
+                    formMessage.textContent = '';
+                    formMessage.className = 'form-message mt-3';
+
+                    let nomorWhatsapp = "{{ $profil->no_telp ?? '' }}";
+                    nomorWhatsapp = nomorWhatsapp.replace(/[^0-9]/g, '');
+                    if (nomorWhatsapp.startsWith('0')) {
+                        nomorWhatsapp = '62' + nomorWhatsapp.substring(1);
+                    }
+
+                    if (!nomorWhatsapp) {
+                        formMessage.textContent = 'Nomor WhatsApp admin tidak tersedia.';
+                        formMessage.classList.add('text-danger');
+                        return;
+                    }
+
+                    // Ambil data dari form yang sudah disederhanakan
+                    const nama = document.getElementById('wa_name').value;
+                    const pesan = document.getElementById('wa_message').value;
+
+                    // Validasi input yang lebih sederhana
+                    if (!nama || !pesan) {
+                        formMessage.textContent = 'Mohon lengkapi Nama dan Isi Pesan.';
+                        formMessage.classList.add('text-danger');
+                        return;
+                    }
+
+                    // Buat template pesan WhatsApp yang lebih ringkas
+                    const templatePesan = `Halo, saya *${nama}*.
+Saya ingin bertanya mengenai:
+
+${pesan}
+
+-------------------------
+Pesan ini dikirim dari website.`;
+
+                    const pesanEncoded = encodeURIComponent(templatePesan);
+                    const waUrl = `https://wa.me/${nomorWhatsapp}?text=${pesanEncoded}`;
+
+                    formMessage.textContent = 'Membuka WhatsApp...';
+                    formMessage.classList.add('text-success');
+                    window.open(waUrl, '_blank');
+                });
+            }
+        });
+    </script>
+@endpush

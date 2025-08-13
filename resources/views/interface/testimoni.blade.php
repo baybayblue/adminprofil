@@ -87,10 +87,12 @@
                 </div>
                 <div class="testimonial-information">
                     <div class="testimonial-image">
-                        <img src="{{ $testimoni->foto ? asset('storage/'.$testimoni->foto) : 'https://placehold.co/70x70/EFEFEF/AAAAAA&text=Foto' }}" 
-                             alt="{{ $testimoni->nama_pemberi }}" class="img-fluid rounded-circle"
-                             onerror="this.onerror=null;this.src='https://placehold.co/70x70/EFEFEF/AAAAAA&text=Foto';">
-                    </div>
+                        <img 
+                            src="{{ $testimoni->foto ? asset('storage/'.$testimoni->foto) : asset('images/icon-user.png') }}" 
+                            alt="{{ $testimoni->nama_pemberi }}" 
+                            class="img-fluid rounded-circle"
+                            onerror="this.onerror=null;this.src='{{ asset('assets/img/user-logo.jpeg') }}';">
+                    </div>                    
                     <div class="testimonial-name">
                         <h4>{{ $testimoni->nama_pemberi }}</h4>
                         <span>{{ $testimoni->jabatan_atau_asal }}</span>
@@ -107,6 +109,7 @@
     </div>
 </div>
 <!-- End of Testimonial Area -->
+
 
 <!-- Testimoni Form Section -->
 <div class="testimoni-form-area section-padding bg-light">

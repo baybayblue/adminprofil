@@ -33,6 +33,12 @@ Route::get('/berita', [InterfaceController::class, 'daftarKonten'])->defaults('j
 Route::get('/berita/{slug}', [InterfaceController::class, 'beritaDetail'])->name('berita.detail');
 Route::get('/artikel', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'artikel')->name('artikel.index');
 Route::get('/artikel/{slug}', [InterfaceController::class, 'artikelDetail'])->name('artikel.detail');
+Route::prefix('galeri')->group(function () {
+    Route::get('/', [InterfaceController::class, 'tampilkanGaleri'])->name('galeri.tampil');
+    Route::get('/foto', [InterfaceController::class, 'galeriFoto'])->name('galeri.foto');
+    Route::get('/video', [InterfaceController::class, 'galeriVideo'])->name('galeri.video');
+  
+});
 Route::get('/galeri', [InterfaceController::class, 'tampilkanGaleri'])->name('galeri.tampil');
 Route::get('/guru', [InterfaceController::class, 'tampilkanGuru'])->name('guru.tampil');
 Route::get('/prestasi', [InterfaceController::class, 'tampilkanPrestasi'])->name('prestasi.tampil');
@@ -48,14 +54,8 @@ Route::get('/agenda-kegiatan', [InterfaceController::class, 'agenda'])->name('in
 Route::get('/agenda-search', [InterfaceController::class, 'search'])->name('agenda.search');
 Route::get('/testimoni', [InterfaceController::class, 'testimoni'])->name('testimoni');
 Route::post('/testimoni', [InterfaceController::class, 'storeTestimoni'])->name('testimoni.store');
-Route::prefix('kegiatan-ekstrakurikuler')->group(function () {
-    Route::get('/', [InterfaceController::class, 'ekskulIndex'])->name('ekskul');
-    Route::get('/cari', [InterfaceController::class, 'ekskulIndex'])->name('ekskul.search');
-    Route::get('/filter/{id}', [InterfaceController::class, 'ekskulIndex'])->name('ekskul.filter');
-    Route::get('/ekstrakurikuler/{id}', [InterfaceController::class, 'ekskulShow'])->name('ekskul.detail');
-    Route::get('/daftar', [InterfaceController::class, 'ekskulDaftar'])->name('ekskul.daftar');
-    Route::post('/daftar', [InterfaceController::class, 'ekskulStore'])->name('ekskul.store');
-});
+Route::get('/ekstrakurikuler/album', [InterfaceController::class, 'albumEkskul'])->name('ekskul.album');
+Route::get('/ekstrakurikuler/album/{id}', [InterfaceController::class, 'galeriEkskul'])->name('ekskul.galeri');
 
 // Route::get('/teaching-factory', [InterfaceController::class, 'tefaIndex'])->name('teaching');
 
