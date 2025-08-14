@@ -37,5 +37,8 @@ class ProfilSekolah extends Model
         'jumlah_guru',
         'jumlah_siswa',
         'jumlah_ruang_kelas',
+        'jam_operasional', // <-- Kolom baru
+        'foto_gedung',    // <-- Kolom baru
+
     ];
 }

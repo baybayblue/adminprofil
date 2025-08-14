@@ -102,10 +102,10 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="about-text-container">
-                    <div class="text-center mb-4">
+                    {{-- <div class="text-center mb-4">
                         <img src="{{ asset('storage/' . ($profil->logo ?? 'default/logo.png')) }}" alt="Logo SMK" class="img-fluid" style="max-height: 150px;">
                     </div>
-                    
+                     --}}
                     <h4 class="mb-3">{{ $profil->nama_sekolah ?? 'SMK Contoh' }}</h4>
                     <p>{!! $profil->sejarah ?? 'SMK kami berdiri dengan komitmen untuk menyiapkan tenaga kerja terampil yang siap bersaing di dunia industri. Dengan fasilitas praktikum yang memadai dan kerjasama yang kuat dengan dunia usaha/dunia industri, kami bertekad menjadi lembaga pendidikan vokasi unggulan.' !!}</p>
                     
@@ -119,8 +119,10 @@
             </div>
             <div class="col-lg-6">
                 <div class="skill-image">
-                    {{-- Mengganti 4 gambar kecil dengan 1 gambar besar --}}
-                    <img src="{{ asset('img/banner/7.jpg') }}" alt="Gedung Sekolah" class="img-fluid rounded shadow">
+                    {{-- GAMBAR GEDUNG SEKARANG DINAMIS --}}
+                    <img src="{{ $profil->foto_gedung ? asset('storage/' . $profil->foto_gedung) : asset('img/banner/7.jpg') }}" 
+                         alt="Gedung Sekolah" class="img-fluid rounded shadow"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/EFEFEF/AAAAAA&text=Gedung+Sekolah';">
                 </div>
             </div>
         </div>

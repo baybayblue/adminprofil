@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home One || TechEdu</title>
+    <title>@yield('title') || {{ $profil->nama_sekolah ?? 'Nama Sekolah' }}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -89,13 +89,11 @@
                 <div class="row">
                     <div class="col-lg-7 col-md-8">
                         <div class="header-top-info">
-                            <span>Open hours: 8.00-18.00 Mon-Sat</span>
+                            <span><i class="fa fa-clock-o"></i> {{ $profil->jam_operasional ?? 'Senin - Jumat: 08:00 - 16:00' }}</span>
                             <div class="social-links">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-google-plus"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                @if($profil->facebook_url) <a href="{{ $profil->facebook_url }}" target="_blank"><i class="fa fa-facebook"></i></a> @endif
+                                @if($profil->instagram_url) <a href="{{ $profil->instagram_url }}" target="_blank"><i class="fa fa-instagram"></i></a> @endif
+                                @if($profil->youtube_url) <a href="{{ $profil->youtube_url }}" target="_blank"><i class="fa fa-youtube-play"></i></a> @endif
                             </div>
                         </div>
                     </div>

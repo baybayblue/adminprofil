@@ -80,6 +80,11 @@
                                 <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $profil->email ?? '') }}" required>
                                 @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
+                            <div class="form-group">
+                                <label for="jam_operasional">Jam Operasional</label>
+                                <textarea name="jam_operasional" id="jam_operasional" class="form-control @error('jam_operasional') is-invalid @enderror" rows="3" placeholder="Contoh: Senin - Jumat: 07:00 - 15:00">{{ old('jam_operasional', $profil->jam_operasional) }}</textarea>
+                                @error('jam_operasional')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,6 +141,15 @@
                                 @endif
                                 @error('foto_kepala_sekolah')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
+                            <div class="form-group">
+                        <label for="foto_gedung">Foto Gedung Sekolah</label>
+                        <input type="file" name="foto_gedung" id="foto_gedung" class="form-control-file @error('foto_gedung') is-invalid @enderror">
+                        <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah foto. Max 2MB.</small>
+                        @if($profil->foto_gedung)
+                            <img src="{{ Storage::url($profil->foto_gedung) }}" alt="Foto Gedung" class="img-thumbnail mt-2" width="300">
+                        @endif
+                        @error('foto_gedung')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
                         </div>
                      </div>
                 </div>

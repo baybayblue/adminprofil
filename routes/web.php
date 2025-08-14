@@ -28,7 +28,7 @@ use App\Http\Controllers\Admin\SliderController;
 */
 // Rute Halaman Awal (Publik)
 Route::get('/', [InterfaceController::class, 'beranda'])->name('beranda');
-Route::get('/jurusan', [InterfaceController::class, 'jurusan'])->name('jurusan');
+Route::get('/jurusan', [InterfaceController::class, 'jurusanIndex'])->name('jurusan');
 Route::get('/berita', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'berita')->name('berita.index');
 Route::get('/berita/{slug}', [InterfaceController::class, 'beritaDetail'])->name('berita.detail');
 Route::get('/artikel', [InterfaceController::class, 'daftarKonten'])->defaults('jenis', 'artikel')->name('artikel.index');

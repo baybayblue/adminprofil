@@ -25,23 +25,34 @@ class InterfaceController extends Controller
 
     public function beranda()
     {
+        // Ambil data untuk slider (misalnya 3 slider terbaru)
+        // Klausa 'where' dihapus karena kolom 'is_active' tidak ada
+        $sliders = Slider::latest()->take(2)->get();
+
+        // Ambil data jurusan (misalnya 6 jurusan untuk ditampilkan di carousel)
+        $jurusans = Jurusan::latest()->take(6)->get();
+
+        // Ambil data guru (misalnya 8 guru untuk ditampilkan di carousel)
+        $gurus = Guru::with('jurusan')->latest()->take(8)->get();
+
+        // Ambil foto-foto terbaru dari galeri (misalnya 8 item)
+        $galeriItems = Galeri::where('tipe', 'foto')->latest()->take(8)->get();
+
+        // Ambil berita terbaru (misalnya 3 berita untuk ditampilkan di carousel)
+        $beritaTerbaru = Konten::where('jenis', 'berita')->latest('tgl_publikasi')->take(3)->get();
+
+        // Ambil data profil untuk statistik
         $profil = ProfilSekolah::first();
-        $sliders = Slider::where('status', true)->get();
-        $galeri_terbaru = Galeri::latest()->take(8)->get();
-        $jurusan_list = Jurusan::all();
-        $guru_list = Guru::all();
-        $berita_terbaru = Konten::latest()->take(4)->get();
 
-        return view('interface.beranda', [
-            'profil' => $profil,
-            'berita_terbaru' => $berita_terbaru,
-            'galeri_terbaru' => $galeri_terbaru,
-            'jurusan_list' => $jurusan_list,
-            'guru_list' => $guru_list,
-            'sliders' => $sliders,
-        ]);
+        return view('interface.beranda', compact(
+            'sliders',
+            'jurusans',
+            'gurus',
+            'galeriItems',
+            'beritaTerbaru',
+            'profil'
+        ));
     }
-
 
     public function tefaIndex()
     {
@@ -159,7 +170,7 @@ class InterfaceController extends Controller
 
         // Ambil 5 prestasi terbaru untuk sidebar
         $recentPrestasi = Prestasi::latest()->where('id', '!=', $id)->take(5)->get();
-        
+
         // Ambil background untuk halaman
         $background = Background::where('halaman', 'prestasi')->first();
 
@@ -240,10 +251,10 @@ class InterfaceController extends Controller
     {
         // Mengambil data profil sekolah pertama
         $profil = ProfilSekolah::first();
-        
+
         // Mengambil 6 item sarana pertama untuk ditampilkan di halaman "Tentang"
         $saranas = Sarana::take(6)->get();
-        
+
         // Mengambil background untuk halaman
         $background = Background::where('halaman', 'visi_misi')->first(); // Anda bisa ganti key 'visi_misi' jika perlu
 
@@ -347,10 +358,11 @@ class InterfaceController extends Controller
         return view('interface.ekskul.galeri', compact('ekskul', 'semuaFoto', 'filterJudul', 'background'));
     }
 
-    public function jurusan()
+    public function jurusanIndex()
     {
-        $jurusans = Jurusan::all();
-        $background = Background::where('halaman', 'sarana')->first();
+        $jurusans = Jurusan::latest()->get();
+        $background = Background::where('halaman', 'jurusan')->first();
+
         return view('interface.profile.jurusan', compact('jurusans', 'background'));
     }
 }

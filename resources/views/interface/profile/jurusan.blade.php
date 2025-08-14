@@ -8,6 +8,9 @@
             border-radius: 5px;
             overflow: hidden;
             transition: all 0.3s ease;
+            height: 100%; /* Membuat kartu memiliki tinggi yang sama */
+            display: flex;
+            flex-direction: column;
         }
 
         .single-class:hover {
@@ -21,7 +24,15 @@
         }
 
         .single-class-text {
-            padding: 15px;
+            padding: 20px;
+            flex-grow: 1; /* Membuat area teks mengisi sisa ruang */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .class-des p {
+            min-height: 100px; /* Menjaga tinggi minimum untuk deskripsi */
         }
 
         .owl-nav {
@@ -44,11 +55,7 @@
 @endpush
 
 @section('interface')
-    <!-- 
-        Area Breadcrumb dan Banner Halaman.
-        Background gambar sekarang diatur dari tabel 'backgrounds'.
-        Mencari gambar dengan key 'jurusan'.
-    -->
+    <!-- Area Breadcrumb dan Banner Halaman -->
     <div class="breadcrumb-banner-area gallery"
          style="background-image: url('{{ ($background && $background->gambar) ? asset('storage/' . $background->gambar) : asset('assets/images/default-banner.jpg') }}');">
         <div class="container">
@@ -118,31 +125,37 @@
                 </div>
             </div>
 
+            @if($jurusans->isNotEmpty())
             <div class="owl-carousel owl-theme" id="jurusan-carousel">
                 @foreach ($jurusans as $jurusan)
                     <div class="item">
                         <div class="single-class">
                             <div class="single-class-image">
-                                <a href="#">
-                                    <img src="{{ asset('storage/' . $jurusan->gambar) }}" alt="{{ $jurusan->nama_jurusan }}"
-                                         onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
-                                </a>
+                                {{-- Tautan dihapus dari gambar --}}
+                                <img src="{{ asset('storage/' . $jurusan->gambar) }}" alt="{{ $jurusan->nama_jurusan }}"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/400x300/EFEFEF/AAAAAA&text=Gambar';">
                             </div>
                             <div class="single-class-text">
                                 <div class="class-des">
-                                    <h4><a href="#">{{ $jurusan->nama_jurusan }}</a></h4>
+                                    {{-- Tautan dihapus dari judul --}}
+                                    <h4>{{ $jurusan->nama_jurusan }}</h4>
                                     <p>{{ Str::limit($jurusan->deskripsi, 150) }}</p>
                                 </div>
-                                <div class="class-schedule mt-2">
-                                    @if ($jurusan->website_url)
-                                        <a href="{{ $jurusan->website_url }}" class="btn btn-sm btn-outline-primary" target="_blank">Website Jurusan</a>
-                                    @endif
-                                </div>
+                                {{-- Tombol website dihapus --}}
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+            @else
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        Saat ini belum ada data jurusan yang tersedia.
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 @endsection
@@ -150,21 +163,24 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            $('#jurusan-carousel').owlCarousel({
-                loop: true,
-                margin: 20,
-                nav: true,
-                dots: false,
-                autoplay: true,
-                autoplayTimeout: 4000,
-                responsive: {
-                    0: { items: 1 },
-                    576: { items: 1 },
-                    768: { items: 2 },
-                    992: { items: 3 },
-                    1200: { items: 3 }
-                }
-            });
+            // Hanya jalankan carousel jika ada item
+            if ($('#jurusan-carousel .item').length > 0) {
+                $('#jurusan-carousel').owlCarousel({
+                    loop: true,
+                    margin: 30,
+                    nav: true,
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 4000,
+                    responsive: {
+                        0: { items: 1 },
+                        576: { items: 1 },
+                        768: { items: 2 },
+                        992: { items: 3 },
+                        1200: { items: 3 }
+                    }
+                });
+            }
         });
     </script>
 @endpush
