@@ -90,7 +90,7 @@
                     </div>
 
                     <!-- Widget Kepala Sekolah -->
-                    <div class="single-widget-item">
+                    {{-- <div class="single-widget-item">
                         <div class="single-title">
                             <h3>Kepala Sekolah</h3>
                         </div>
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

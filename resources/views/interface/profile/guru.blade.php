@@ -65,13 +65,13 @@
                         <div class="single-teachers-column text-center">
                             <div class="teachers-image-column">
                                 {{-- Tautan sekarang mengarah ke halaman detail guru --}}
-                                <a href="{{ route('guru.detail', $guru->id) }}"> 
+                                <a href="#"> 
                                     <img src="{{ $guru->foto ? asset('storage/' . $guru->foto) : 'https://placehold.co/300x300/EFEFEF/AAAAAA?text=%EF%80%87&font=fontawesome' }}" 
                                          alt="{{ $guru->nama }}"
                                          onerror="this.onerror=null;this.src='https://placehold.co/300x300/EFEFEF/AAAAAA?text=%EF%80%87&font=fontawesome';">
-                                    <span class="image-hover">
+                                    {{-- <span class="image-hover">
                                         <span><i class="fa fa-user"></i>Lihat Profil</span>
-                                    </span>
+                                    </span> --}}
                                 </a>
                             </div>
                             <div class="teacher-column-carousel-text">

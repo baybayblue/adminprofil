@@ -41,12 +41,41 @@
     .single-blog-text p {
         flex-grow: 1;
     }
+
+    /* --- STYLE BARU UNTUK SLIDER (DIPERBAIKI) --- */
+    .slider-area.slider-style-1 {
+        height: 740px !important; /* Menetapkan tinggi area slider */
+        background-color: rgba(0, 0, 0, 0.5); /* Background fallback */
+        position: relative; /* Diperlukan agar Nivo Slider berfungsi baik */
+    }
+    .preview-2, #nivoslider {
+        height: 740px !important; /* Memaksa tinggi container slider */
+        width: 100%;
+    }
+    #nivoslider img {
+        width: 100%;
+        height: 100% !important; /* Gambar mengisi 100% tinggi container */
+        object-fit: cover; /* Memastikan gambar terisi penuh tanpa distorsi */
+    }
+    .text-content h1.title1 {
+        color: #ffffff !important; /* Mengubah warna judul menjadi putih */
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Menambahkan bayangan agar mudah dibaca */
+    }
+    .text-content p.sub-title {
+        color: #00b5b5 !important; /* Mengubah warna deskripsi menjadi hijau tema */
+        font-weight: 500;
+        background-color: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan */
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: inline-block;
+    }
 </style>
 @endpush
 
 @section('interface')
     <!--Slider Area Start-->
     <div class="slider-area slider-style-1">
+        @if($sliders->isNotEmpty())
         <div class="preview-2">
             <div id="nivoslider" class="slides">
                 @foreach($sliders as $slider)
@@ -75,6 +104,19 @@
             </div>
             @endforeach
         </div>
+        @else
+        {{-- Tampilan fallback jika tidak ada slider --}}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="text-content">
+                        <h1 class="title1">Selamat Datang di {{ $profil->nama_sekolah ?? 'Website Sekolah' }}</h1>
+                        <p class="sub-title">Saat ini belum ada gambar slider yang ditampilkan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
     <!--End of Slider Area-->
 
@@ -153,7 +195,7 @@
     <!--End of Class Area-->
 
     <!--Fun Factor Area Start-->
-    {{-- <div class="fun-factor-area">
+    <div class="fun-factor-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
@@ -186,7 +228,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!--End of Fun Factor Area-->
 
     <!--Teachers Area Start-->

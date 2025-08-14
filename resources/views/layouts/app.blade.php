@@ -30,6 +30,7 @@
     <!-- Style CSS
   ============================================ -->
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
+    @stack('styles')
 
     <!-- Modernizr JS
   ============================================ -->
